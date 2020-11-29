@@ -11,7 +11,7 @@
     width: 50%;
     float: left;
     padding-left:20px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     padding-right: 40px;
 }
 
@@ -32,11 +32,38 @@
 }
 
 .container .btn-holder {
-    justify-content: flex-end;
+    justify-content: left;
+    padding-left: 40%;
     display:flex;
 }
 
 
 #new-symptom-label {
     padding-bottom:9px;
+}
+
+.small-container {
+    width: 50%;
+    float: left;
+    padding-left:40px;
+    padding-bottom: 60px;
+    padding-right: 40px;
+}
+
+#symptom_alert {
+    padding-left:4%;
+    padding-right:4%;
+    width:100%;
+    justify-content: center;
+    display:flex;
+}
+
+.second-container {
+    padding-left:4%;
+    padding-right:4%;
+    width:100%;
+    justify-content: center;
+    display:flex;
+
+
 }

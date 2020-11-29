@@ -77,7 +77,7 @@ Functionality: It allows users to upload new symptoms.
                     <div class="form-group">
                         <label style="font-size: 17px" for="symptom_select">Symptom Name:
                         </label>
-                        <select class = "custom-select" name="symptom_desc"  id='symptom_select' onchange='changeVisibilityHide();'>
+                        <select class = "custom-select" name="symptom_desc"  id='symptom_select' onchange='changeVisibilityHide(); hideAlert()'>
                             <option selected>Choose a symptom that best describes how you're feeling.</option>
 
                             <?php
@@ -116,10 +116,10 @@ Functionality: It allows users to upload new symptoms.
                         <div id="new-symptom" class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="new-symptom-checkbox" onchange="addNewSymptom()">
-                                <label id='new-symptom-label' class="custom-control-label" for="new-symptom-checkbox">Do you have a symptom that is not listed?</label>
+                                <label style="font-size: 17px" id='new-symptom-label' class="custom-control-label" for="new-symptom-checkbox">Do you have a symptom that is not listed?</label>
                             </div>
-                            <input name="new_symptom" style="visibility: hidden" type="text" class="form-control" id="symptomInput" aria-describedby="symptom_help" placeholder="Describe your symptom">
-                            <small style="visibility: hidden"  id="symptom_help" class="form-text text-muted">Please use a single word to describe your symptom (e.g. fever, headache, chills, etc).</small>
+                            <input name="new_symptom" style="visibility: hidden" type="text" class="form-control" id="symptomInput" aria-describedby="symptom_help" placeholder="Name your symptom">
+                            <small style="visibility: hidden"  id="symptom_help" class="form-text text-muted">Please use a single word to name your symptom (e.g. fever, headache, chills, etc).</small>
                         </div>
                     </div>
 
@@ -128,7 +128,7 @@ Functionality: It allows users to upload new symptoms.
 
                 <div class="float-child2">
                     <div class="form-group" id="severity_dropdown" >
-                        <label for="severity-select" id="severity_selector_label">How severe is your symptom?</label>
+                        <label style="font-size: 17px" for="severity-select" id="severity_selector_label">How severe is your symptom?</label>
                         <select class="custom-select" name="severity" id="severity-select" onchange='changeVisibility(); hospitalNearYouVisible()'>
                             <option selected>Choose a value: Minor to Severe </option>
                             <option value="1">1 Mild</option>
@@ -147,12 +147,13 @@ Functionality: It allows users to upload new symptoms.
 
                 </div>
 
-
                 <div class="container">
                     <div class="btn-holder">
-                        <button style="visibility: hidden" id="submit_button" type="submit" class="btn btn-primary" onclick='getElementById("form-one").submit();'>Submit</button>
+                        <button  style="visibility: hidden" id="submit_button"  class="btn btn-primary" onclick='this.form.submit()'>Submit</button>
                     </div>
                 </div>
+
+
 
 
                 <?php
@@ -179,7 +180,19 @@ Functionality: It allows users to upload new symptoms.
                         if (!mysqli_query($connection, $sql)) {
                             echo "Error: Could not execute $sql";
                         } else {
-                            echo $_POST['symptom_desc'];
+                            ?>
+
+                            <div  id='symptom_alert'>
+                                <div class="alert alert-dismissible alert-info">
+                                    <h4 class="alert-heading">Symptom Recorded</h4>
+                                    <p class="mb-0">We have recorded your <?php echo $_POST['symptom_desc']; ?> symptom.
+                                        If you feel unwell or your symptom worsen please find
+                                        your nearest hospital below. If you would like to record another
+                                        symptom re-enter the above information. <a href="covid_test_center.php" class="alert-link">Find a Test Center</a>.</p>
+                                </div>
+                            </div>
+
+                            <?php
                         }
 
                     } // end if (isset)
@@ -189,13 +202,15 @@ Functionality: It allows users to upload new symptoms.
             </form>
 
 
-        <form id='hospital_near_you' style='visibility: visible' method="GET" action="new_symptoms.php">
+
+        <form  class ="second_form" id='hospital_near_you' style='visibility: visible' method="GET" action="new_symptoms.php">
 
             <!-- div container for the drop down form select bar -->
             <div class="form-group">
+                <div class="small-container">
                 <label style="font-size: 17px" for="county_control_form">If your symptoms get worse please go to your local hospital
                 </label>
-                <select class = "form-control" name="hospital_county" onchange='this.form.submit()' id='county_control_form'>
+                <select class = "custom-select" name="hospital_county" onchange='this.form.submit()'id='county_control_form'>
                     <option selected>Your Location</option>
 
                     <?php
@@ -221,10 +236,11 @@ Functionality: It allows users to upload new symptoms.
                     }
                     ?>
                 </select>
-
-
+                </div>
 
             </div>
+
+
             <?php
 
             if ($_SERVER["REQUEST_METHOD"] == "GET")
@@ -234,7 +250,9 @@ Functionality: It allows users to upload new symptoms.
             ?>
 
             <p>&nbsp;</p>
+            <div class="second-container">
             <table class="table table-hover">
+
                 <thead>
                 <tr class="table-success">
                     <th scope="col">Hospital Near You</th>
@@ -281,6 +299,10 @@ Functionality: It allows users to upload new symptoms.
 
             </table>
 
+            </div>
+
+
+
         </form>
         </div>
 
@@ -294,6 +316,7 @@ Functionality: It allows users to upload new symptoms.
             document.getElementById('submit_button').style.visibility = 'hidden';
         }
 
+
         function addNewSymptom() {
 
             if (document.getElementById("new-symptom-checkbox").checked === true) {
@@ -306,6 +329,10 @@ Functionality: It allows users to upload new symptoms.
         }
         function hospitalNearYouVisible() {
             document.getElementById('hospital_near_you').style.visibility = 'visible'
+        }
+
+        function hideAlert() {
+            document.getElementById('symptom_alert').style.visibility = 'hidden'
         }
 
 
