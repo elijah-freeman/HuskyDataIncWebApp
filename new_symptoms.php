@@ -334,8 +334,6 @@ Functionality: It allows users to upload new symptoms.
         function hideAlert() {
             document.getElementById('symptom_alert').style.visibility = 'hidden'
         }
-
-
     </script>
     </body>
 </html>
