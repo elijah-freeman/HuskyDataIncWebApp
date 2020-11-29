@@ -155,12 +155,13 @@ INSERT INTO `PATIENT` (`patient_id`, `sickness_type`, `severity`, `duration`, `a
 --
 
 CREATE TABLE `SYMPTOM` (
-  `symptom_id` int(11) NOT NULL,
+  `symptom_id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(256) DEFAULT NULL,
   `severity` int(11) NOT NULL,
   `infection_name` varchar(128) DEFAULT 'UNKNOWN',
   `user_id` int(11) DEFAULT NULL,
-  `patient_id` int(11) DEFAULT NULL
+  `patient_id` int(11) DEFAULT NULL,
+   KEY (symptom_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

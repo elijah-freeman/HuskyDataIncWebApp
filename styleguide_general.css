@@ -2,14 +2,68 @@
 }
 
 
-.float-contianer {
-
+.float-container{
     padding: 20px;
+
 }
 
 .float-child {
     width: 50%;
     float: left;
-    padding: 20px;
+    padding-left:20px;
+    padding-bottom: 10px;
+    padding-right: 40px;
+}
+
+
+.float-child2 {
+    width:50%;
+    float:bottom;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
+}
+
+.container {
+    justify-content: space-between;
+    flex-direction: column;
+    height: 5vh;
+    display: flex;
+}
+
+.container .btn-holder {
+    justify-content: left;
+    padding-left: 40%;
+    display:flex;
+}
+
+
+#new-symptom-label {
+    padding-bottom:9px;
+}
+
+.small-container {
+    width: 50%;
+    float: left;
+    padding-left:40px;
+    padding-bottom: 60px;
+    padding-right: 40px;
+}
+
+#symptom_alert {
+    padding-left:4%;
+    padding-right:4%;
+    width:100%;
+    justify-content: center;
+    display:flex;
+}
+
+.second-container {
+    padding-left:4%;
+    padding-right:4%;
+    width:100%;
+    justify-content: center;
+    display:flex;
+
 
 }
