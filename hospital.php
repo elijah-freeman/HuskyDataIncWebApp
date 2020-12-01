@@ -55,6 +55,9 @@ near them.
                     <li class="nav-item">
                         <a class="nav-link" href="new_symptoms.php">New Symptom</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_info.php">Users</a>
+                    </li>
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -68,69 +71,118 @@ near them.
         <div class="jumbotron">
             <p style="font-size: 50px" class="lead">Find Hospitals Near You</p>
             <hr class="my-4">
-            <form method="GET" action="hospital.php">
+            <form  class ="second_form" id='hospital_near_you' style='visibility: visible' method="GET" action="hospital.php">
 
                 <!-- div container for the drop down form select bar -->
                 <div class="form-group">
-                    <label style="font-size: 17px" for="county_control_form">REPLACE LABEL.
-                    </label>
-                    <select class = "form-control" name="infection" onchange='this.form.submit()' id='county_control_form'>
-                        <option selected>Select a REPLACE OPTION</option>
+                    <div class="small-container">
+                        <label style="font-size: 17px" for="county_control_form">If you are exhibiting symptoms or your condition
+                            worsens please visit your local hospital to get tested.
+                        </label>
+                        <select class = "custom-select" name="hospital_county" onchange='this.form.submit()'id='county_control_form'>
+                            <option selected>Your Location</option>
 
-                        <?php
-                        $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-                        if ( mysqli_connect_errno() )
-                        {
-                            die( mysqli_connect_error() );
-                        }
-
-                        ///REPLACE////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                        $sql = "SELECT DISTINCT county
-                FROM HOSPITAL JOIN PATIENT ON HOSPITAL.hospital_name = PATIENT.hosp_name, INFECTION
-                WHERE PATIENT.sickness_type = INFECTION.infection_name";
-                        if ($result = mysqli_query($connection, $sql))
-                        {
-                            // loop through the data
-                            while($row = mysqli_fetch_assoc($result))
+                            <?php
+                            $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                            if ( mysqli_connect_errno() )
                             {
-                                echo '<option value="' . $row['county'] . '">';
-                                echo $row['county'];
-                                echo "</option>";
+                                die( mysqli_connect_error() );
+                            }
+                            // Query that retrieves the first and last name and SSN from
+                            // our EMPLOYEE table in our database.
+                            $sql = "SELECT DISTINCT county FROM HOSPITAL";
+                            if ($result = mysqli_query($connection, $sql))
+                            {
+                                // loop through the data
+                                while($row = mysqli_fetch_assoc($result))
+                                {
+                                    echo '<option value="' . $row['county'] . '">';
+                                    echo $row['county'];
+                                    echo "</option>";
 
-                            } // release the memory used by the result set
+                                } // release the memory used by the result set
+                                mysqli_free_result($result);
+                            }
+                            ?>
+                        </select>
+                    </div>
 
-
-                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-                            mysqli_free_result($result);
-                        }
-                        ?>
-                    </select>
                 </div>
+
+
                 <?php
 
-
-                /////REPLACE//////////////////////////////////////////////////////////////////////////////////////////////////////
                 if ($_SERVER["REQUEST_METHOD"] == "GET")
                 {
-                    if (isset($_GET['infection']) )
-                    {
+                if (isset($_GET['hospital_county']) )
+                {
                 ?>
 
                 <p>&nbsp;</p>
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="table-success">
-                            <th scope="col">Infection Name</th>
-                            <th scope="col">Infection Rate</th>
-                            <th scope="col">Number of Infections</th>
-                        </tr>
-                    </thead>
+                <div class="second-container">
+                    <table class="table table-hover">
 
-                    <?php
+
+
+
+
+
+                        <div class="card mb-3">
+                            <h3 class="card-header"><?php echo $row['patient_id'] ?></h3>
+                            <div class="card-body">
+                                <h5 class="card-title">Special title treatment</h5>
+                                <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
+                                <rect width="100%" height="100%" fill="#868e96" data-darkreader-inline-fill="" style="--darkreader-inline-fill: #1d2428;"></rect>
+                                <text x="50%" y="50%" fill="#dee2e6" dy=".3em" data-darkreader-inline-fill="" style="--darkreader-inline-fill: #a19d97;">Image cap</text>
+                            </svg>
+                            <div class="card-body">
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Cras justo odio</li>
+                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+                            <div class="card-body">
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                2 days ago
+                            </div>
+                        </div>
+
+                        <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+                            <div class="card-header">Patient ID: <?php echo $row['patient_id'] ?></div>
+                            <div class="card-body">
+                                <h4 class="card-title">Patient Information</h4>
+                                <p class="card-text">Sickness Type: <?php echo $row['patient_id'] ?></p>
+                                <p class="card-text">Severity of Infection: <?php echo $row['severity'] ?></p>
+                                <p class="card-text">Duration: <?php echo $row['patient_id'] ?></p>
+                                <p class="card-text">Age: <?php echo $row['patient_id'] ?></p>
+                                <p class="card-text">Severity: <?php echo $row['patient_id'] ?></p>
+                                <p class="card-text">Severity: <?php echo $row['patient_id'] ?></p>
+                                <p class="card-text">Severity: <?php echo $row['patient_id'] ?></p>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <thead>
+                        <tr class="table-success">
+                            <th scope="col">Hospital Near You</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Number of Available Bed</th>
+                            <th scope="col">Available Tests</th>
+                        </tr>
+                        </thead>
+
+                        <?php
                         if ( mysqli_connect_errno() )
                         {
                             die(mysqli_connect_error() );
@@ -139,35 +191,36 @@ near them.
                         // Selects the infection name, infection rate and the number
                         // of infections of that that type in the county specfied in the
                         // drop down menu by the user.
-                        $sql = "SELECT sickness_type, infection_rate, COUNT(sickness_type) as infection_count
-                      FROM (SELECT county, sickness_type, infection_rate
-                             FROM HOSPITAL JOIN PATIENT ON HOSPITAL.hospital_name = PATIENT.hosp_name, INFECTION
-                             WHERE PATIENT.sickness_type = INFECTION.infection_name) T1
-                      WHERE county = '{$_GET['infection']}' GROUP BY sickness_type";
+                        $sql = "SELECT hospital_name, county, availability_bed, covid_test
+                        FROM HOSPITAL
+                      WHERE county = '{$_GET['hospital_county']}'";
 
                         if ($result = mysqli_query($connection, $sql))
                         {
                             while($row = mysqli_fetch_assoc($result))
                             {
-                    ?>
-                    <tr>
-                        <td><?php echo $row['sickness_type'] ?></td>
-                        <td><?php echo $row['infection_rate'] ?></td>
-                        <td><?php echo $row['infection_count'] ?></td>
-                    </tr>
+                                ?>
+                                <tr>
+                                    <td><?php echo $row['hospital_name'] ?></td>
+                                    <td><?php echo $row['county'] ?></td>
+                                    <td><?php echo $row['availability_bed'] ?></td>
+                                    <td><?php echo $row['covid_test'] ?></td>
+                                </tr>
 
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                    <?php
+                                <?php
                             } // release the memory used by the result set
                             mysqli_free_result($result);
                         }
 
-                    } // end if (isset)
-                } // end if ($_SERVER)
-                    ?>
+                        } // end if (isset)
+                        } // end if ($_SERVER)
+                        ?>
 
-                </table>
+
+                    </table>
+
+                </div>
+
             </form>
         </div>
     </body>

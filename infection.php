@@ -57,6 +57,9 @@ a select menu.
                 <li class="nav-item">
                     <a class="nav-link" href="new_symptoms.php">New Symptom</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="user_info.php">Users</a>
+                </li>
 
             </ul>
             <form class="form-inline my-2 my-lg-0">

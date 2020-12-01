@@ -1,0 +1,36 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 70px;
+    padding-left: 20px;
+    padding-right:20px;
+}
+
+.item-a {
+    grid-area: patient-table;
+}
+.item-b {
+    grid-area: first-alert;
+}
+.item-c {
+    grid-area: second-alert;
+}
+.item-d {
+    grid-area: footer;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: auto 50px auto;
+    grid-template-rows: 20px auto 300px 1px auto;
+    grid-template-areas:
+    "spacer1 spacer1 spacer1"
+    "patient-table inner first-alert"
+    "patient-table inner second-alert"
+    "spacer spacer spacer"
+    "footer footer footer";
+}
+
+
+#select-patient-label {
+}
