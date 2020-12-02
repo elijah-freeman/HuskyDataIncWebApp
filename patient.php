@@ -102,7 +102,8 @@ Functionality: It allows users to find detailed information
                         <div class="container">
                             <div class="item-a">
                                 <?php if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                                    if (isset($_GET['patient']) ) {?>
+                                    if (isset($_GET['patient'])) {
+                                        ?>
                                         <?php
                                         if ( mysqli_connect_errno() ) {
                                             die(mysqli_connect_error() );
@@ -140,11 +141,12 @@ Functionality: It allows users to find detailed information
                                 } // end if ($_SERVER)
                                 ?>
                             </div>
-
                             <div class="item-b">
                                 <?php
                                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     if (isset($_GET['patient']) ) {
+                                        ?>
+                                        <?php
                                         if ( mysqli_connect_errno() ) {
                                             die(mysqli_connect_error() );
                                         }
@@ -174,7 +176,9 @@ Functionality: It allows users to find detailed information
                             <div class="item-c">
                                 <?php
                                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                                    if (isset($_GET['patient']) ) {
+                                    if (isset($_GET['patient'])) {
+                                        ?>
+                                        <?php
                                         if ( mysqli_connect_errno() ) {
                                             die(mysqli_connect_error() );
                                         }
@@ -191,7 +195,7 @@ Functionality: It allows users to find detailed information
                                                     <strong>Medication</strong><p>This patient has been diagnosed
                                                         with <em><?php echo $row['infection_name']?></em>.
                                                         Please use <strong><?php echo $row['medication'] ?></strong></p>
-                                                </div
+                                                </div>
                                                 <?php
                                             } // release the memory used by the result set
                                             mysqli_free_result($result);
@@ -200,48 +204,46 @@ Functionality: It allows users to find detailed information
                                 }?>
                             </div>
                             <div class="item-d">
-                                <div class="grid-child3">
                                     <?php
                                     if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         if (isset($_GET['patient']) ) {
                                             ?>
-                                    <h3>Patients Symptoms</h3>
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr class="table-info">
-                                        <th scope="col">Symptom</th>
-                                        <th scope="col">Severity</th>
-                                        </tr>
-                                        </thead>
-                                        <?php
-                                        if ( mysqli_connect_errno() ) {
-                                            die(mysqli_connect_error() );
-                                        }
-                                        // Selects patient information from database using
-                                        // their user_id.
-                                        $sql = "SELECT description, severity 
-                                                FROM SYMPTOM 
-                                                where patient_id = '{$_GET['patient']}'; ";
-                                        if ($result = mysqli_query($connection, $sql)) {
-                                            while($row = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                <tr>
-                                                <td><?php echo $row['description'] ?></td>
-                                                <td><?php echo $row['severity'] ?></td>
-                                                </tr>
-                                                <?php
-                                            } // release the memory used by the result set
-                                            mysqli_free_result($result);
-                                        }
+                                        <h3>Patients Symptoms</h3>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr class="table-info">
+                                            <th scope="col">Symptom</th>
+                                            <th scope="col">Severity</th>
+                                            </tr>
+                                            </thead>
+                                            <?php
+                                            if ( mysqli_connect_errno() ) {
+                                                die(mysqli_connect_error() );
+                                            }
+                                            // Selects patient information from database using
+                                            // their user_id.
+                                            $sql = "SELECT description, severity 
+                                                    FROM SYMPTOM 
+                                                    where patient_id = '{$_GET['patient']}'; ";
+                                            if ($result = mysqli_query($connection, $sql)) {
+                                                while($row = mysqli_fetch_assoc($result)) {
+                                                    ?>
+                                                    <tr>
+                                                    <td><?php echo $row['description'] ?></td>
+                                                    <td><?php echo $row['severity'] ?></td>
+                                                    </tr>
+                                                    <?php
+                                                } // release the memory used by the result set
+                                                mysqli_free_result($result);
+                                            }
                                         }
                                     } // end if ($_SERVER)
-                                        ?>
-                                    </table>
-                                </div>
+                                            ?>
+                                        </table>
                             </div>
                         </div>
                     </div>
-                    <div class="grid-child3">
+                    <div class="grid-child2">
                         <h2>Patients with the most severe symptoms</h2>
                         <p>The following patients below exhibit symptom severity that is higher
                             than the average severity for all patients register with the Husky Data
@@ -292,7 +294,7 @@ Functionality: It allows users to find detailed information
                             ?>
                         </table>
                     </div>
-                </div> <!-- Grid container -->
+                </div>
             </form>
         </div>
     </body>
