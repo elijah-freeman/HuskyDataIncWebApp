@@ -2,13 +2,7 @@
 <!--
 Project Phase III
 Group name: Husky Data Inc.
-Group members: Elijah Freeman Roy (Dongyeon) Joo
-This is the infection script for the "Find infection
-near you".
-
-Functionality: It allows the users to find information
-regarding infections. Find infections by county through
-a select menu.
+Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 -->
 
 <!DOCTYPE html>

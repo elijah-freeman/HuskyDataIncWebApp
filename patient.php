@@ -2,11 +2,7 @@
 <!--
 Project Phase III
 Group name: Husky Data Inc.
-Group members: Elijah Freeman Roy (Dongyeon) Joo
-This is the infection script for the "Patient Information".
-
-Functionality: It allows users to find detailed information
-               about a number of patients.
+Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +84,7 @@ Functionality: It allows users to find detailed information
                                 }
                                 // Query that retrieves the first and last name and user_id from
                                 // our USER_INFO table in our database.
-                                $sql = "select patient_id from PATIENT";
+                                $sql = "select patient_id from PATIENT ORDER BY patient_id ASC";
                                 if ($result = mysqli_query($connection, $sql)) {
                                     // loop through the data
                                     while($row = mysqli_fetch_assoc($result)) {

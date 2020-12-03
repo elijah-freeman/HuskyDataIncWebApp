@@ -2,10 +2,7 @@
 <!--
 Project Phase III
 Group name: Husky Data Inc.
-Group members: Elijah Freeman Roy (Dongyeon) Joo
-This is the infection script for the "High Risk Areas".
-
-Functionality: It allows users find high risk areas near them.
+Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 -->
 
 <!DOCTYPE html>

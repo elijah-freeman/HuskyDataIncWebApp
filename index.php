@@ -1,5 +1,9 @@
 <!-- TCSS 445 : Autumn 2020 -->
-<!-- Assignment 4 Template -->
+<!--
+Project Phase III
+Group name: Husky Data Inc.
+Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+-->
 <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -60,7 +64,6 @@
                             <a class="dropdown-item" href="#">Separated link</a>
                         </div>
                     </li> -->
-                </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
