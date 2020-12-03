@@ -1,12 +1,9 @@
 <?php require_once('config.php'); ?>
-<!-- Elijah Freeman -->
-<!-- Employee file that represents the employee page on our website
-    that is hosted through Google Cloud Platform. Allows users
-    to select different employees using a dropdown menu. The data
-    from the dropdown menu is then used in a query to our database
-    to retrieve some information about the employee. -->
-<!-- TCSS 445 : Autumn 2020 -->
-<!-- Assignment 4 Template -->
+<!--
+Project Phase III
+Group name: Husky Data Inc.
+Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+-->
 <!DOCTYPE html>
 <html lang="en">
 	<head>

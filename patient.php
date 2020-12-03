@@ -2,11 +2,7 @@
 <!--
 Project Phase III
 Group name: Husky Data Inc.
-Group members: Elijah Freeman Roy (Dongyeon) Joo
-This is the infection script for the "Patient Information".
-
-Functionality: It allows users to find detailed information
-               about a number of patients.
+Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 -->
 <!DOCTYPE html>
 <html lang="en">

@@ -1,5 +1,9 @@
 <!-- TCSS 445 : Autumn 2020 -->
-<!-- Assignment 4 Template -->
+<!--
+Project Phase III
+Group name: Husky Data Inc.
+Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+-->
 <!DOCTYPE html>
     <html lang="en">
         <head>
