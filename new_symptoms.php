@@ -70,50 +70,48 @@ Functionality: It allows users to upload new symptoms.
             <p style="font-size: 50px" class="lead">Describe your Symptoms</p>
             <hr class="my-4">
             <form id="form-one" method="POST" action="new_symptoms.php">
-                <div class = "float-container">
                 <!-- div container for the drop down form select bar -->
-                    <div class="item-1">
-                        <div class="form-group">
-                            <label style="font-size: 17px" for="symptom_select">Symptom Name:</label>
-                            <select class = "custom-select" name="symptom_desc"  id='symptom_select' onchange='changeVisibilityHide(); hideAlert()'>
-                                <option selected>Choose a symptom that best describes how you're feeling.</option>
-                                <?php
-                                $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-                                if (mysqli_connect_errno()) {
-                                    die(mysqli_connect_error());
-                                }
-                                $sql = "SELECT DISTINCT description 
-                                        FROM SYMPTOM";
-                                if ($result = mysqli_query($connection, $sql)) {
-                                    // loop through the data
-                                    while($row = mysqli_fetch_assoc($result)) {
-                                        echo '<option value="' . $row['description'] . '">';
-                                        echo $row['description'];
-                                        echo "</option>";
-                                    } // release the memory used by the result set
+                <div class="item-1">
+                    <div class="form-group">
+                        <label style="font-size: 17px" for="symptom_select">Symptom Name:</label>
+                        <select class = "custom-select" name="symptom_desc"  id='symptom_select' onchange='hideAlert()'>
+                            <option selected>Choose a symptom that best describes how you're feeling.</option>
+                            <?php
+                            $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                            if (mysqli_connect_errno()) {
+                                die(mysqli_connect_error());
+                            }
+                            $sql = "SELECT DISTINCT description 
+                                    FROM SYMPTOM ORDER BY description ASC";
+                            if ($result = mysqli_query($connection, $sql)) {
+                                // loop through the data
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    echo '<option value="' . $row['description'] . '">';
+                                    echo $row['description'];
+                                    echo "</option>";
+                                } // release the memory used by the result set
                                 mysqli_free_result($result);
-                                }
-                                ?>
-                            </select>
-                        </div>
+                            }
+                            ?>
+                        </select>
                     </div>
-                    <!-- TODO this seems like it should go in the database and not tied to the view-->
-                    <div class="item-2">
-                        <div id="new-symptom" class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="new-symptom-checkbox" onchange="addNewSymptom()">
-                                <label style="font-size: 17px" id='new-symptom-label' class="custom-control-label" for="new-symptom-checkbox">Do you have a symptom that is not listed?</label>
-                            </div>
-                            <input name="new_symptom" style="display: none" type="text" class="form-control" id="symptomInput" aria-describedby="symptom_help" placeholder="Name your symptom">
-                            <small style="display: none"  id="symptom_help" class="form-text text-muted">Please use a single word to name your symptom (e.g. fever, headache, chills, etc).</small>
+                </div>
+                <!-- TODO this seems like it should go in the database and not tied to the view-->
+                <div class="item-2">
+                    <div id="new-symptom" class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="new-symptom-checkbox" onchange="addNewSymptom()">
+                            <label style="font-size: 17px" id='new-symptom-label' class="custom-control-label" for="new-symptom-checkbox">Do you have a symptom that is not listed?</label>
                         </div>
+                        <input name="new_symptom" style="display: none" type="text" class="form-control" id="symptomInput" aria-describedby="symptom_help" placeholder="Name your symptom">
+                        <small style="display: none"  id="symptom_help" class="form-text text-muted">Please use a single word to name your symptom (e.g. fever, headache, chills, etc).</small>
                     </div>
                 </div>
                 <div class="item-3">
                     <div class="form-group" id="severity_dropdown" >
                         <label style="font-size: 17px" for="severity-select" id="severity_selector_label">How severe is your symptom?</label>
-                        <select class="custom-select" name="severity" id="severity-select" onchange='changeVisibility(); hospitalNearYouVisible()'>
-                            <option selected>Choose a value: Minor to Severe </option>
+                        <select class="custom-select" name="severity" id="severity-select">
+                            <option selected>Choose a value: Mild to Severe </option>
                             <option value="1">1 Mild</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -127,32 +125,35 @@ Functionality: It allows users to upload new symptoms.
                         </select>
                     </div>
                 </div>
-
-
-                <!--
+                <!-- TODO this seems like it should go in the database and not tied to the view-->
                 <div class="item-4">
-                    <div class="form-group" id="diagnosis_dropdown" >
-                        <label style="font-size: 17px" for="diagnosis-select" id="diagnosis_selector_label">Have you been diagnosed?</label>
-                        <select class="custom-select" id="diagnosis-select" onchange='checkAnswer()'>
-                            <option selected>Select an option</option>
-                            <option value="1">Yes</option>
-                            <option value="2">No</option>
-                        </select>
-                    </div>
-                </div>
-
-
-                <div class="item-5">
                     <div id="new-diagnosis" class="form-group">
-                        <input  style="display: none" type="text" class="form-control" id="diagnosis-Input" aria-describedby="diagnosis_help" placeholder="Please enter your diagnosis">
-                        <small id="diagnosis_help" style="display: none" class="form-text text-muted">Your information is confidential.</small>
+                        <div class="form-group" >
+                            <label style="font-size: 17px" for="diagnosis-select" id="diagnosis_selector_label">Have you been diagnosed?</label>
+                            <select class="custom-select" id="diagnosis-select" onchange="addNewDiagnosis()">
+                                <option selected>Select an option</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                        <input name="new_diagnosis" style="display: none" type="text" class="form-control" id="diagnosisInput" aria-describedby="diagnosis_help" placeholder="Enter your diagnosis">
+                        <small style="display: none"  id="diagnosis_help" class="form-text text-muted">Your information is confidential.</small>
                     </div>
                 </div>
+                <div class="item-5">
+                    <div id="is-patient-container" class="form-group">
+                        <div class="form-group" >
+                            <label style="font-size: 17px" for="is-patient-select" id="is-patient-select-label">Are you a current patient?</label>
+                            <select class="custom-select" id="is-patient-select" onchange="addPatient(); changeVisibility();">
+                                <option selected>Select an option</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                        <input name="is-patient" style="display: none" type="text" class="form-control" id="patientInput" aria-describedby="patient_help" placeholder="Enter you patient ID number">
+                        <small style="display: none"  id="patient_help" class="form-text text-muted">Your symptom will be recorded in your confidential patient chart associated with your ID.</small>
+                    </div>
                 </div>
-                -->
-
-
-
                 <div class="item-6">
                     <div class="container">
                         <div class="btn-holder">
@@ -160,11 +161,6 @@ Functionality: It allows users to upload new symptoms.
                         </div>
                     </div>
                 </div>
-
-
-
-
-
                 <div class="item-7">
                 <?php
                 // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
@@ -175,15 +171,54 @@ Functionality: It allows users to upload new symptoms.
                         if (mysqli_connect_errno()) {
                             die(mysqli_connect_error());
                         }
-                        if (($_POST['new_symptom'] != '')) {
-                            $sql = "INSERT INTO SYMPTOM(description, severity, infection_name, user_id) 
-                                    VALUES ('{$_POST['new_symptom']}',{$_POST['severity']}, 'THROW UP', 3)";
-                        } else {
-                            $sql = "INSERT INTO SYMPTOM(description, severity, infection_name, user_id) 
-                                    VALUES ('{$_POST['symptom_desc']}',{$_POST['severity']}, 'THROW UP', 3)";
+                        // If new user defined symptom and a new diagnosis then execute
+                        if (($_POST['new_symptom'] != '') && ($_POST['new_diagnosis'] != '')) {
+                            if ($_POST['is-patient'] != '') {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name, patient_id) 
+                                    VALUES ('{$_POST['new_symptom']}',{$_POST['severity']}, '{$_POST['new_diagnosis']}', '{$_POST['is-patient']}')";
+                            } else {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name) 
+                                    VALUES ('{$_POST['new_symptom']}',{$_POST['severity']}, '{$_POST['new_diagnosis']}')";
+                            }
+                        }
+                        // If new user defined symptom and no diagnosis then execute
+                        elseif (($_POST['new_symptom'] != '') && ($_POST['new_diagnosis'] == '')) {
+                            if ($_POST['is-patient'] != '') {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name, patient_id) 
+                                    VALUES ('{$_POST['new_symptom']}',{$_POST['severity']}, 'UNKNOWN', '{$_POST['is-patient']}')";
+                            } else {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name) 
+                                    VALUES ('{$_POST['new_symptom']}',{$_POST['severity']}, 'UNKNOWN')";
+                            }
+                        }
+                        // If predefined symptom and diagnosis then execute
+                        elseif (($_POST['new_symptom'] == '') && ($_POST['new_diagnosis'] != '')) {
+                            if ($_POST['is-patient'] != '') {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name, patient_id) 
+                                    VALUES ('{$_POST['symptom_desc']}',{$_POST['severity']}, '{$_POST['new_diagnosis']}', '{$_POST['is-patient']}')";
+                            } else {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name) 
+                                    VALUES ('{$_POST['symptom_desc']}',{$_POST['severity']}, '{$_POST['new_diagnosis']}')";
+                            }
+                        }
+                        // If predefined symptom and no diagnosis then execute
+                        else {
+
+                            if ($_POST['is-patient'] != '') {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name, patient_id) 
+                                    VALUES ('{$_POST['symptom_desc']}', {$_POST['severity']}, 'UNKNOWN', '{$_POST['is-patient']}')";
+                            } else {
+                                $sql = "INSERT INTO SYMPTOM(description, severity, infection_name) 
+                                    VALUES ('{$_POST['symptom_desc']}', {$_POST['severity']}, 'UNKNOWN')";
+                            }
                         }
                         if (!mysqli_query($connection, $sql)) {
-                            echo "Error: Could not execute $sql";
+                            ?>
+                                <script>
+                                    alert("Ooops! Something went wrong. Please contact administrator or try again.")
+                                </script>
+                            <?php
+                            // echo "Error: Could not execute $sql";
                         } else {
                             ?>
                             <div id='symptom_alert'>
@@ -202,80 +237,8 @@ Functionality: It allows users to upload new symptoms.
                     ?>
                 </div>
             </form>
-
-            <form  class ="second_form" id='hospital_near_you' style='display: inline' method="GET" action="new_symptoms.php">
-                <!-- div container for the drop down form select bar -->
-                <div class="form-group">
-                    <div class="small-container">
-                        <label style="font-size: 17px" for="county_control_form">If your symptoms get worse please go to your local hospital
-                        </label>
-                        <select class = "custom-select" name="hospital_county" onchange='this.form.submit()'id='county_control_form'>
-                            <option selected>Your Location</option>
-                            <?php
-                            $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-                            if (mysqli_connect_errno()) {
-                                die(mysqli_connect_error());
-                            }
-                            // Query that retrieves the first and last name and SSN from
-                            // our EMPLOYEE table in our database.
-                            $sql = "SELECT DISTINCT county FROM HOSPITAL";
-                            if ($result = mysqli_query($connection, $sql)) {
-                                // loop through the data
-                                while($row = mysqli_fetch_assoc($result)) {
-                                    echo '<option value="' . $row['county'] . '">';
-                                    echo $row['county'];
-                                    echo "</option>";
-                                } // release the memory used by the result set
-                                mysqli_free_result($result);
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                <?php
-                if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                    if (isset($_GET['hospital_county'])) {
-                        ?>
-                <div class="second-container">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr class="table-success">
-                            <th scope="col">Hospital Near You</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Number of Available Bed</th>
-                            <th scope="col">Available Tests</th>
-                        </tr>
-                        </thead>
-                        <?php
-                        if (mysqli_connect_errno()) {
-                            die(mysqli_connect_error());
-                        }
-                        // Selects the infection name, infection rate and the number
-                        // of infections of that that type in the county specfied in the
-                        // drop down menu by the user.
-                        $sql = "SELECT hospital_name, county, availability_bed, covid_test
-                                FROM HOSPITAL
-                                WHERE county = '{$_GET['hospital_county']}'";
-                        if ($result = mysqli_query($connection, $sql)) {
-                            while($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['hospital_name'] ?></td>
-                                    <td><?php echo $row['county'] ?></td>
-                                    <td><?php echo $row['availability_bed'] ?></td>
-                                    <td><?php echo $row['covid_test'] ?></td>
-                                </tr>
-                                <?php
-                            } // release the memory used by the result set
-                            mysqli_free_result($result);
-                        }
-                    } // end if (isset)
-                } // end if ($_SERVER)
-                        ?>
-                    </table>
-                </div>
-            </form>
         </div>
+
     <!-- Some javascript to provide some functionality -->
         <script type="text/javascript">
             function changeVisibility() {
@@ -293,31 +256,27 @@ Functionality: It allows users to upload new symptoms.
                     document.getElementById('symptom_help').style.display = 'none';
                 }
             }
-            function hospitalNearYouVisible() {
-                document.getElementById('hospital_near_you').style.display = 'inline';
-            }
             function hideAlert() {
                 document.getElementById('symptom_alert').style.display = 'none';
             }
-
-            /*
-
-            function checkAnswer() {
-                alert("HELLO")
-                console.log("hello")
-                const sel = document.getElementById('diagnosis-select');
-                const val = sel.value;
-                console.log(val);
-                if val === "1" {
-                    document.getElementById('new-diagnosis').style.display = 'inline';
+            function addNewDiagnosis() {
+                if (document.getElementById("diagnosis-select").value === "1") {
+                    document.getElementById('diagnosisInput').style.display = 'inline';
+                    document.getElementById('diagnosis_help').style.display = 'inline';
                 } else {
-                    document.getElementById('new-diagnosis').style.display = 'none';
+                    document.getElementById('diagnosisInput').style.display = 'none';
+                    document.getElementById('diagnosis_help').style.display = 'none';
                 }
             }
-
-             */
-
-
+            function addPatient() {
+                if (document.getElementById("is-patient-select").value === "1") {
+                    document.getElementById('patientInput').style.display = 'inline';
+                    document.getElementById('patient_help').style.display = 'inline';
+                } else {
+                    document.getElementById('patientInput').style.display = 'none';
+                    document.getElementById('patient_help').style.display = 'none';
+                }
+            }
         </script>
     </body>
 </html>

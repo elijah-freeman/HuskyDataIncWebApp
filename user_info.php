@@ -94,7 +94,7 @@ Functionality: This page allows the user to find information about
                         }
                         // Query that retrieves the first and last name and user_id from
                         // our USER_INFO table in our database.
-                        $sql = "select first_name, last_name, user_id from USER_INFO";
+                        $sql = "select first_name, last_name, user_id from USER_INFO ORDER BY last_name ASC";
                         if ($result = mysqli_query($connection, $sql))
                         {
                             // loop through the data
