@@ -53,9 +53,11 @@ Functionality: It allows users to find detailed information
                     <li class="nav-item">
                         <a class="nav-link" href="new_symptoms.php">New Symptom</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="user_info.php">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sick_patients.php">Sick Patients</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -119,18 +121,18 @@ Functionality: It allows users to find detailed information
                                                     <div class="card-header">Patient ID:
                                                         <?php echo $row['patient_id']?></div>
                                                     <div class="card-body">
-                                                        <h4 class="card-title">Patient Information</h4>
-                                                        <p class="card-text">Sickness Type:
-                                                            <?php echo $row['patient_id'] ?></p>
-                                                        <p class="card-text">Severity of Infection:
-                                                            <?php echo $row['severity'] ?></p>
-                                                        <p class="card-text">Age: <?php echo $row['age_range'] ?></p>
-                                                        <p class="card-text">Hospital Name:
-                                                            <?php echo $row['hosp_name']?></p>
-                                                        <p class="card-text">Days in Hospital:
-                                                            <?php echo $row['duration'] ?></p>
-                                                        <p class="card-text">Contact:
-                                                            <?php echo $row['patient_email'] ?></p>
+                                                        <h4 class="card-title"><strong>Patient Information</strong></h4>
+                                                        <p class="card-text"><span style="text-decoration: underline;">Sickness Type:</span>
+                                                            <em><?php echo $row['sickness_type'] ?></em></p>
+                                                        <p class="card-text"><span style="text-decoration: underline;">Severity of Infection:</span>
+                                                            <em><?php echo $row['severity'] ?></em></p>
+                                                        <p class="card-text"><span style="text-decoration: underline;">Age:</span><em><?php echo $row['age_range'] ?></em></p>
+                                                        <p class="card-text"><span style="text-decoration: underline;">Hospital Name:<br></span>
+                                                            <em><?php echo $row['hosp_name']?></em></p>
+                                                        <p class="card-text"><span style="text-decoration: underline;">Days in Hospital:</span>
+                                                            <em><?php echo $row['duration'] ?></em></p>
+                                                        <p class="card-text"><span style="text-decoration: underline;">Contact:<br></span>
+                                                            <em><?php echo $row['patient_email'] ?></em></p>
                                                     </div>
                                                 </div>
                                                 <?php

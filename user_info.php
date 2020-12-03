@@ -60,6 +60,10 @@ Functionality: This page allows the user to find information about
                 <a class="nav-link" href="user_info.php">Users</a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="sick_patients.php">Sick Patients</a>
+            </li>
+
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search">
