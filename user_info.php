@@ -14,6 +14,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <!-- add a reference to the external stylesheet -->
     <!-- Uses the solar stylesheet from bootswatch -->
     <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
+    <link rel="stylesheet" href="user_info_stylesheet.css">
 </head>
 <body>
 <!-- START Add HTML code for the top menu section (navigation bar) -->
@@ -74,7 +75,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <hr class="my-4">
     <form method="GET" action="user_info.php">
 
-            <div class="grid-child2">
+            <div class="user-pane">
                 <!-- div container for the drop down form select bar -->
                 <div class="form-group">
                     <label style="font-size: 17px" for="county_control_form">Find Information about User
@@ -116,17 +117,12 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 ?>
 
                 <p>&nbsp;</p>
-                <table class="table table-hover">
-                    <thead>
-                    <tr class="table-success">
-                        <th scope="col">Last Name</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Age</th>
-                        <th scope="col">County</th>
-                        <th scope="col">Contact Information</th>
-                        <th scope="col">Sex</th>
-                    </tr>
-                    </thead>
+
+
+
+
+
+
 
                     <?php
                     if ( mysqli_connect_errno() )
@@ -145,15 +141,40 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         while($row = mysqli_fetch_assoc($result))
                         {
                             ?>
-                            <tr>
-                                <td><?php echo $row['last_name'] ?></td>
-                                <td><?php echo $row['first_name'] ?></td>
-                                <td><?php echo $row['age'] ?></td>
-                                <td><?php echo $row['county'] ?></td>
-                                <td><?php echo $row['email'] ?></td>
-                                <td><?php echo $row['sex'] ?></td>
-                            </tr>
 
+
+
+                            <div class="card mb-3">
+                                <h3 class="card-header"><?php echo $row['first_name'] ?>  <?php echo $row['last_name'] ?></h3>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div>
+                                            <h5 class="card-title">Location: </h5>
+                                            <h6 class="card-subtitle text-muted"><?php echo $row['county'] ?></h6>
+                                        </div>
+                                    </li>
+                                </ul>
+
+
+
+
+                                <div class="d-block">
+                                    <img  src="person-image.png" alt="person-image">
+                                </div>
+
+                                <div class="card-body">
+                                    <p class="card-text">User Information:</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Age: <?php echo $row['age'] ?></li>
+                                    <li class="list-group-item">Sex: <?php echo $row['sex'] ?></li>
+                                    <li class="list-group-item">Email: <?php echo $row['email'] ?></li>
+                                </ul>
+                                <div class="card-body">
+                                    <a href="new_symptoms.php" class="card-link">Do you have symptoms? </a>
+                                    <a href="covid_test_center.php" class="card-link">Find a Test Center.</a>
+                                </div>
+                            </div>
                             <?php
                         } // release the memory used by the result set
                         mysqli_free_result($result);
@@ -163,11 +184,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     } // end if ($_SERVER)
                     ?>
 
-                </table>
 
             </div> <!-- Grid Child-->
-
-        </div> <!-- Grid container -->
 
     </form>
 </div>
