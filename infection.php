@@ -69,6 +69,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <form method="GET" action="infection.php">
         <!-- div container for the drop down form select bar -->
 
+<div class="infection-container">
         <div class="item-1">
             <div class="form-group">
                 <select id="infection_select" class="custom-select" name="infection" onchange='this.form.submit()'>
@@ -91,6 +92,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     ?>
                 </select>
             </div>
+        </div>
 
 
             <div class="item-2">
@@ -112,7 +114,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 array_push($array, 'Unknown', 'Unknown');
                             }
                             ?>
-                            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                            <div class="card text-white bg-warning mb-3" style="max-width: 20rem;">
                                 <div class="card-header">Infection</div>
                                 <div class="card-body">
                                     <h4 id="result" class="card-title"><?php echo $_GET['infection'] ?></h4>
@@ -151,12 +153,10 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 array_push($array, 'Unknown', 'Unknown');
                             }
                             ?>
-                            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                            <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
                                 <div class="card-header">Medication</div>
                                 <div class="card-body">
                                     <h4 id="result" class="card-title"><?php echo $array[0] ?></h4>
-
-
                                     <p class="card-text"></p>
                                 </div>
                             </div>
@@ -168,99 +168,127 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 // end if ($_SERVER)
                 ?>
             </div>
+
+
+
 
 
 
             <div class="item-4">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                    if (isset($_GET['infection']) ) {
-                        if (mysqli_connect_errno()) {
-                            die(mysqli_connect_error() );
-                        }
-                        $sql = "SELECT DISTINCT description, infection_name
+                if (isset($_GET['infection']) ) {
+                if (mysqli_connect_errno()) {
+                    die(mysqli_connect_error() );
+                }
+
+                $sql = "SELECT DISTINCT description, infection_name
                             FROM SYMPTOM 
                             WHERE infection_name = '{$_GET['infection']}';";
-                        if ($result = mysqli_query($connection, $sql)) {
-                            $array = array();
-                            while($row = mysqli_fetch_assoc($result)) {
-                                array_push($array, $row['description']);
+
+                if ($result = mysqli_query($connection, $sql)) {
+                ?>
+                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Symptoms</div>
+                    <div class="card-body">
+                        <small style="padding-bottom: 15px" class="form-text">Patients who have <?php echo $_GET['infection'] ?>
+                            experience the following symptoms:
+                        </small>
+                        <table cellpadding="10px" class="table table-hover" style="border-top: none;">
+                            <?php
+                            if ( mysqli_connect_errno() )
+                            {
+                                die(mysqli_connect_error() );
                             }
-                            ?>
-                            <div class="card bg-light mb-3" style="max-width: 20rem;">
-                                <div class="card-header">Symptoms</div>
-                                <div class="card-body">
+                            $sql = "SELECT DISTINCT description, infection_name
+                                    FROM SYMPTOM 
+                                    WHERE infection_name = '{$_GET['infection']}';";
+
+                            if ($result = mysqli_query($connection, $sql))
+                            {
+                                while($row = mysqli_fetch_assoc($result))
+                                {
+                                    ?>
+                                    <tr>
+                                        <td class="text-white" style="font-size: 16px"><?php echo $row['description'] ?></td>
+                                    </tr>
+
 
                                     <?php
-                                    sort($array);
-                                    foreach ($array as &$value) {
-                                        ?>
-                                        <p style="margin-bottom: 0; margin-top: 0; line-height:1;" ><?php echo $value ?></p>
-                                    <?php } ?>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
-                            <?php
-                        } // release the memory used by the result set
-                        mysqli_free_result($result);
-                    }
-                } // end if (isset)
-                // end if ($_SERVER)
-                ?>
+                                } // release the memory used by the result set
+                                mysqli_free_result($result);
+                            }
+
+                            } // end if (isset)
+                            } // end if ($_SERVER)
+                            }
+                            ?>
+
+                        </table>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
             </div>
-
-
-
-
 
 
 
             <div class="item-5">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                    if (isset($_GET['infection']) ) {
-                        if (mysqli_connect_errno()) {
-                            die(mysqli_connect_error() );
-                        }
+                if (isset($_GET['infection']) ) {
+                if (mysqli_connect_errno()) {
+                    die(mysqli_connect_error() );
+                }
 
-//                        $sql = "SELECT DISTINCT description, infection_name
-//                            FROM SYMPTOM
-//                            WHERE infection_name = '{$_GET['infection']}';";
-
-                        $sql = "SELECT DISTINCT county, sickness_type, COUNT(county) as infection_count
+                if ($result = mysqli_query($connection, $sql)) {
+                ?>
+                <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Locations and Counts of Current <?$_GET['infection']?> Cases</div>
+                    <div class="card-body">
+                        <small style="padding-bottom: 15px" class="form-text">Patients who have <?php echo $_GET['infection'] ?>
+                            can be found in the following locations:
+                        </small>
+                        <table cellpadding="10px" class="table table-hover" style="border-top: none;">
+                            <thead>
+                            <tr class="text-white">
+                                <th scope="col">Location</th>
+                                <th scope="col">Cases</th>
+                            </tr>
+                            </thead>
+                            <?php
+                            if ( mysqli_connect_errno() )
+                            {
+                                die(mysqli_connect_error() );
+                            }
+                            $sql = "SELECT DISTINCT county, sickness_type, COUNT(county) as infection_count
                                 FROM (SELECT county, sickness_type, infection_rate
                                 FROM HOSPITAL JOIN PATIENT ON HOSPITAL.hospital_name = PATIENT.hosp_name, INFECTION
                                 WHERE PATIENT.sickness_type = INFECTION.infection_name) T1
                                 WHERE sickness_type = '{$_GET['infection']}' GROUP BY county";
 
-                        if ($result = mysqli_query($connection, $sql)) {
-                            $array = array();
-                            while($row = mysqli_fetch_assoc($result)) {
-                                array_push($array, $row['county'],  $row['infection_count']);
+                            if ($result = mysqli_query($connection, $sql))
+                            {
+                                while($row = mysqli_fetch_assoc($result))
+                                {
+                                    ?>
+                                    <tr class="text-white">
+                                        <td><?php echo $row['county'] ?></td>
+                                        <td><?php echo $row['infection_count'] ?></td>
+                                    </tr>
+                                    <?php
+                                } // release the memory used by the result set
+                                mysqli_free_result($result);
+                            }
+
+                            } // end if (isset)
+                            } // end if ($_SERVER)
                             }
                             ?>
-                            <div class="card bg-light mb-3" style="max-width: 20rem;">
-                                <div class="card-header">Locations and Counts of Current <?$_GET['infection']?> Cases</div>
-                                <div class="card-body">
-                                    <?php
-                                    for ($x = 0; $x < count($array); $x++) {
-                                        ?>
-                                        <div id="location-chart" >
-                                            <span ><?php echo $array[$x];?></span>
-                                             &nbsp;&nbsp;
-                                            <span ><?php echo $array[$x+1];?></span>
-                                        </div>
-                                    <?php $x = $x + 1;} ?>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
-                            <?php
-                        } // release the memory used by the result set
-                        mysqli_free_result($result);
-                    }
-                } // end if (isset)
-                // end if ($_SERVER)
-                ?>
+
+                        </table>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
             </div>
 
 
@@ -272,17 +300,20 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         if (mysqli_connect_errno()) {
                             die(mysqli_connect_error() );
                         }
-                        $sql = "SELECT severity, duration, age_range
+                        $sql = "SELECT  duration, age_range
                             FROM PATIENT 
                             WHERE sickness_type = '{$_GET['infection']}';";
                         if ($result = mysqli_query($connection, $sql)) {
                             ?>
-                            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                            <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
                                 <div class="card-header">Patient Information</div>
                                 <div class="card-body">
+                                    <small style="padding-bottom: 15px" class="form-text">Information about patients who are
+                                        currently infected with <?php echo $_GET['infection'] ?>
+                                    </small>
                                     <table cellpadding="10px" class="table table-hover" style="border-top: none;">
                                         <thead>
-                                        <tr>
+                                        <tr class="text-white">
                                             <th scope="col">Severity</th>
                                             <th scope="col">Duration in Hospital</th>
                                             <th scope="col">Age</th>
@@ -303,7 +334,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                             while($row = mysqli_fetch_assoc($result))
                                             {
                                                 ?>
-                                                <tr>
+                                                <tr class="text-white">
                                                     <td><?php echo $row['severity'] ?></td>
                                                     <td><?php echo $row['duration'] ?></td>
                                                     <td><?php echo $row['age_range'] ?></td>
@@ -323,9 +354,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 </div>
                             </div>
             </div>
-
+        </div>
     </form>
-
-
 </body>
 </html>
