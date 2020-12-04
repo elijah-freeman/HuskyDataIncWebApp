@@ -152,6 +152,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </small>
             </div>
         </div>
+
         <div class="item-5">
             <div id="is-patient-container" class="form-group">
                 <div class="form-group" >
@@ -170,6 +171,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </small>
             </div>
         </div>
+
         <div class="item-6">
             <div class="container">
                 <div class="btn-holder">
@@ -179,6 +181,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </div>
             </div>
         </div>
+
         <div class="item-7">
             <?php
             // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE

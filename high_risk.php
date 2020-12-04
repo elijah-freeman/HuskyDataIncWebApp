@@ -87,7 +87,19 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             die( mysqli_connect_error() );
                         }
 
-                        ///REPLACE////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        ///REPLACE/////////
+                        /// DO NOT REPLACE
+                        /// ADDITIONAL FUNCTIONALITY FOR THIS PAGE:
+                        /// ALLOW USER TO SEARCH FOR INFECTIONS AROUND THEM
+                        /// TO KNOW WHETHER OR NOT A PARTICULAR INFECTION IS NEAR THEM
+                        /// AND IF THEY ARE POTENTIALLY IN A HIGH RISK AREA.
+                        ///
+                        ///
+                        /// IN ADDITION TO THAT, MAKE SURE THAT SOMEHOW WE DETERMINE WHAT
+                        /// DESIGNATES A HIGH RISK AREA AND DISPLAY THAT AS STATIC CONTENT.
+                        /// THAT WAY WE WON'T HAVE TO WORRY ABOUT PAGE RELOAD WHEN WE
+                        /// FIND INFECTIONS NEAR THE USER.
+                        ///  D///////////////////////////////////////////////////////////////////////////////////////////////
 
                         $sql = "SELECT DISTINCT county
                 FROM HOSPITAL JOIN PATIENT ON HOSPITAL.hospital_name = PATIENT.hosp_name, INFECTION
