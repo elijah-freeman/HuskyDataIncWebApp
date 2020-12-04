@@ -93,9 +93,85 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             </div>
 
 
+            <div class="item-2">
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                    if (isset($_GET['infection']) ) {
+                        if (mysqli_connect_errno()) {
+                            die(mysqli_connect_error() );
+                        }
+                        $sql = "SELECT DISTINCT infection_name, infection_rate, num_of_infections
+                            FROM INFECTION
+                            WHERE infection_name = '{$_GET['infection']}';";
+                        if ($result = mysqli_query($connection, $sql)) {
+                            $array = array();
+                            while($row = mysqli_fetch_assoc($result)) {
+                                array_push($array, $row['infection_rate'], $row['num_of_infections']);
+                            }
+                            if (empty($array)) {
+                                array_push($array, 'Unknown', 'Unknown');
+                            }
+                            ?>
+                            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Infection</div>
+                                <div class="card-body">
+                                    <h4 id="result" class="card-title"><?php echo $_GET['infection'] ?></h4>
+                                    <p>Infection Rate: <?php echo $array[0] ?></p>
+                                    <p>Total Number of Cases: <?php echo $array[1] ?></p>
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+                            <?php
+                        } // release the memory used by the result set
+                        mysqli_free_result($result);
+                    }
+                } // end if (isset)
+                // end if ($_SERVER)
+                ?>
+            </div>
 
 
-            <div>
+
+            <div class="item-3">
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                    if (isset($_GET['infection']) ) {
+                        if (mysqli_connect_errno()) {
+                            die(mysqli_connect_error() );
+                        }
+                        $sql = "SELECT medication
+                            FROM INFECTION 
+                            WHERE infection_name = '{$_GET['infection']}';";
+                        if ($result = mysqli_query($connection, $sql)) {
+                            $array = array();
+                            while($row = mysqli_fetch_assoc($result)) {
+                                array_push($array, $row['medication']);
+                            }
+                            if (empty($array)) {
+                                array_push($array, 'Unknown', 'Unknown');
+                            }
+                            ?>
+                            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Medication</div>
+                                <div class="card-body">
+                                    <h4 id="result" class="card-title"><?php echo $array[0] ?></h4>
+
+
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+                            <?php
+                        } // release the memory used by the result set
+                        mysqli_free_result($result);
+                    }
+                } // end if (isset)
+                // end if ($_SERVER)
+                ?>
+            </div>
+
+
+
+            <div class="item-4">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     if (isset($_GET['infection']) ) {
@@ -112,9 +188,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             }
                             ?>
                             <div class="card bg-light mb-3" style="max-width: 20rem;">
-                                <div class="card-header"><?php  echo $_GET['infection'] ?> </div>
+                                <div class="card-header">Symptoms</div>
                                 <div class="card-body">
-                                    <h4 id="result" class="card-title">Symptoms:</h4>
+
                                     <?php
                                     sort($array);
                                     foreach ($array as &$value) {
@@ -137,11 +213,118 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 
 
-        </div>
+
+
+            <div class="item-5">
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                    if (isset($_GET['infection']) ) {
+                        if (mysqli_connect_errno()) {
+                            die(mysqli_connect_error() );
+                        }
+
+//                        $sql = "SELECT DISTINCT description, infection_name
+//                            FROM SYMPTOM
+//                            WHERE infection_name = '{$_GET['infection']}';";
+
+                        $sql = "SELECT DISTINCT county, sickness_type, COUNT(county) as infection_count
+                                FROM (SELECT county, sickness_type, infection_rate
+                                FROM HOSPITAL JOIN PATIENT ON HOSPITAL.hospital_name = PATIENT.hosp_name, INFECTION
+                                WHERE PATIENT.sickness_type = INFECTION.infection_name) T1
+                                WHERE sickness_type = '{$_GET['infection']}' GROUP BY county";
+
+                        if ($result = mysqli_query($connection, $sql)) {
+                            $array = array();
+                            while($row = mysqli_fetch_assoc($result)) {
+                                array_push($array, $row['county'],  $row['infection_count']);
+                            }
+                            ?>
+                            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Locations and Counts of Current <?$_GET['infection']?> Cases</div>
+                                <div class="card-body">
+                                    <?php
+                                    for ($x = 0; $x < count($array); $x++) {
+                                        ?>
+                                        <div id="location-chart" >
+                                            <span ><?php echo $array[$x];?></span>
+                                             &nbsp;&nbsp;
+                                            <span ><?php echo $array[$x+1];?></span>
+                                        </div>
+                                    <?php $x = $x + 1;} ?>
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+                            <?php
+                        } // release the memory used by the result set
+                        mysqli_free_result($result);
+                    }
+                } // end if (isset)
+                // end if ($_SERVER)
+                ?>
+            </div>
+
+
+
+            <div class="item-6">
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                    if (isset($_GET['infection']) ) {
+                        if (mysqli_connect_errno()) {
+                            die(mysqli_connect_error() );
+                        }
+                        $sql = "SELECT severity, duration, age_range
+                            FROM PATIENT 
+                            WHERE sickness_type = '{$_GET['infection']}';";
+                        if ($result = mysqli_query($connection, $sql)) {
+                            ?>
+                            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Patient Information</div>
+                                <div class="card-body">
+                                    <table cellpadding="10px" class="table table-hover" style="border-top: none;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Severity</th>
+                                            <th scope="col">Duration in Hospital</th>
+                                            <th scope="col">Age</th>
+                                        </tr>
+                                        </thead>
+
+                                        <?php
+                                        if ( mysqli_connect_errno() )
+                                        {
+                                            die(mysqli_connect_error() );
+                                        }
+                            $sql = "SELECT severity, duration, age_range
+                            FROM PATIENT 
+                            WHERE sickness_type = '{$_GET['infection']}';";
+
+                                        if ($result = mysqli_query($connection, $sql))
+                                        {
+                                            while($row = mysqli_fetch_assoc($result))
+                                            {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $row['severity'] ?></td>
+                                                    <td><?php echo $row['duration'] ?></td>
+                                                    <td><?php echo $row['age_range'] ?></td>
+                                                </tr>
+                                                <?php
+                                            } // release the memory used by the result set
+                                            mysqli_free_result($result);
+                                        }
+
+                                        } // end if (isset)
+                                        } // end if ($_SERVER)
+                                        }
+                                        ?>
+
+                                    </table>
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+            </div>
+
     </form>
-
-</div>
-
 
 
 </body>
