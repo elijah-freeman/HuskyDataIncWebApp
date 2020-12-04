@@ -1,3 +1,32 @@
 .item-1 {
-    padding-right: 50%;
+    grid-area: infection-select;
+}
+
+.item-2 {
+    grid-area: infection-chart;
+}
+
+.item-3 {
+    grid-area: medication-chart;
+}
+
+.item-4 {
+    grid-area: symptom-chart;
+}
+
+.item-5 {
+    grid-area: locations-chart;
+}
+
+.item-6 {
+    grid-area: patient-chart;
+}
+
+.infection-container {
+    display: grid;
+    gap: 10px;
+    grid-template-areas:
+    "infection-select infection-select infection-select"
+    "infection-chart symptom-chart patient-chart"
+    "medication-chart locations-chart patient-chart";
 }
