@@ -14,10 +14,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         <!-- Uses the solar stylesheet from bootswatch -->
         <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="patient_stylesheet.css">
+        <link rel="stylesheet" href="signup.css">
     </head>
     <body>
+
+
+
+
+
+    <div class="menubar-container">
         <!-- START Add HTML code for the top menu section (navigation bar) -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Husky Data Health</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
                     aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,13 +63,80 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         <a class="nav-link" href="sick_patients.php">Sick Patients</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </div>
+            <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+        </nav>
+
+
+
+
+
+
+        <div class="submit-user-button bg-dark" >
+            <div id="id01" class="modal">
+                <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="patient.php">
+                    <div class="container" >
+                        <h1>Sign Up</h1>
+                        <label for="First_name"><b>First Name</b></label>
+                        <input type="text" placeholder="Enter First Name" name="First_name" required>
+                        <label for="Last_name"><b>Last Name</b></label>
+                        <input type="text" placeholder="Enter Last Name" name="Last_name" required>
+                        <label for="email"><b>Email</b></label>
+                        <input type="text" placeholder="Enter Email" name="email" required>
+                        <label for="user_id"><b>User ID</b></label>
+                        <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County"><b>County</b></label>
+                        <input type="text" placeholder="County" name="County" required>
+                        <label for="Sex"><b>Sex</b></label>
+                        <input type="text" placeholder="Enter Sex (F or M)" name="Sex" required>
+                        <label for="Age"><b>Age</b></label>
+                        <input type="text" placeholder="Enter Age" name="Age" required>
+                        <label for="case_start_date"><b>Case start Date</b></label>
+                        <input type="text" placeholder="case start date(MM-DD-YYY)" name="case_start_date" required>
+                        <div class="clearfix">
+                            <button type="submit" class="btn btn-primary" onclick='this.form.submit()'>Sign Up</button>
+                        </div>
+                        <?php
+                        $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                        // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],$_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
+                                ?>
+                                <?php
+                                if (mysqli_connect_errno()) {
+                                    die(mysqli_connect_error());
+                                }
+                                $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, Case_start_data)
+                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', '{$_POST['Last_name']}', '{$_POST['County']}', 
+                                            '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
+                                if (!mysqli_query($connection, $sql)) {
+                                    echo "Error: Could not execute $sql";
+                                }
+                            }
+                        }
+                        ?>
+                    </div>
                 </form>
             </div>
-        </nav>
-        <!-- END Add HTML code for the top menu section (navigation bar) -->
+            <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+        </div>
+    </div>
+
+
+
+    <!-- END Add HTML code for the top menu section (navigation bar) -->
+
+
+
         <div class="jumbotron">
             <p style="font-size: 50px" class="lead">Patient Dashboard</p>
             <hr class="my-4">
@@ -97,7 +171,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 ?>
                             </select>
                         </div>
-                        <div class="container">
+                        <div class="container-pat">
                             <div class="item-a">
                                 <?php if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     if (isset($_GET['patient'])) {

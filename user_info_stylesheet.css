@@ -2,3 +2,19 @@
     padding-left: 15%;
     padding-right: 15%;
 }
+
+#nav-area {
+    grid-area: nav-space
+}
+
+.submit-user-button {
+    grid-area: submit-user-bttn
+}
+
+.menubar-container {
+    display: grid;
+    grid-template-areas:
+    "nav-space submit-user-bttn";
+}
+
+
