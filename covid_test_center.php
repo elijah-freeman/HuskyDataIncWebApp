@@ -64,7 +64,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
+                style="width:auto;">Sign Up</button>
     </nav>
 
 
@@ -74,8 +75,10 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
-            <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-            <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="covid_test_center.php">
+            <span  onclick="document.getElementById('id01').style.display='none'" class="close"
+                   title="Close Modal">&times;</span>
+            <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST"
+                   action="covid_test_center.php">
                 <div class="container">
                     <h1>Sign Up</h1>
                     <label for="First_name"><b>First Name</b></label>
@@ -85,7 +88,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     <label for="email"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" required>
                     <label for="user_id"><b>User ID</b></label>
-                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County"><b>County</b></label>
+                    <input type="text" placeholder="Enter User ID" name="user_id" required><label
+                            for="County"><b>County</b></label>
                     <input type="text" placeholder="County" name="County" required>
                     <label for="Sex"><b>Sex</b></label>
                     <input type="text" placeholder="Enter Sex (F or M)" name="Sex" required>
@@ -100,14 +104,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                     // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],$_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
+                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],
+                            $_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
                             ?>
                             <?php
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error());
                             }
-                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, Case_start_data)
-                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', '{$_POST['Last_name']}', '{$_POST['County']}', 
+                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age,
+                                                                                                    Case_start_data)
+                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', 
+                                            '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
                             if (!mysqli_query($connection, $sql)) {
                                 echo "Error: Could not execute $sql";
@@ -130,102 +137,71 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         </script>
     </div>
 </div>
-
-
-
-
-
-
-
-    <div class="jumbotron">
-        <p class="lead">Select county.</p>
-        <hr class="my-4">
-
-        <form method="GET" action="covid_test_center.php">
-            <select name="county" onchange='this.form.submit()'>
+<div class="jumbotron">
+    <p class="lead">Select county.</p>
+    <hr class="my-4">
+    <form method="GET" action="covid_test_center.php">
+        <select name="county" onchange='this.form.submit()'>
             <option selected>Select a name</option>
-
             <?php
             $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-            if ( mysqli_connect_errno() )
-            {
+            if ( mysqli_connect_errno() ) {
                 die( mysqli_connect_error() );
             }
             // Query that retrieves the first and last name and SSN from
             // our EMPLOYEE table in our database.
             $sql = "select DISTINCT county from LOCATION";
-            if ($result = mysqli_query($connection, $sql))
-            {
+            if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
-                while($row = mysqli_fetch_assoc($result))
-                {
+                while($row = mysqli_fetch_assoc($result)) {
                     echo '<option value="' . $row['county'] . '">';
                     echo $row['county'];
                     echo "</option>";
-
                 } // release the memory used by the result set
                 mysqli_free_result($result);
-             }
+            }
             ?>
-            </select>
-
-            <!-- Works up until this point -->
-
+        </select>
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            if (isset($_GET['county'])) {
+                ?>
+        <table class="table table-hover">
+            <thead>
+            <tr class="table-success">
+                <th scope="col">Hospital Name</th>
+                <th scope="col">Covid test</th>
+            </tr>
+            </thead>
             <?php
-
-            if ($_SERVER["REQUEST_METHOD"] == "GET")
-            {
-                if (isset($_GET['county']) )
-                {
-            ?>
-
-            <p>&nbsp;</p>
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="table-success">
-                            <th scope="col">Hospital Name</th>
-                            <th scope="col">Covid test</th>
-                        </tr>
-                    </thead>
-
+            //error here
+            if ( mysqli_connect_errno() ) {
+                die(mysqli_connect_error() );
+            }
+            // Selects all from the result whose ssn is
+            // specified by drop down menu (user only sees
+            // the name but we track the ssn) and match
+            // on department number to find their department.
+            $sql = " SELECT hospital_name, covid_test 
+                     FROM HOSPITAL
+                     WHERE county = '{$_GET['county']}'";
+            if ($result = mysqli_query($connection, $sql)) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $row['hospital_name'] ?></td>
+                        <td><?php echo $row['covid_test'] ?></td>
+                    </tr>
                     <?php
-                    //error here
-                        if ( mysqli_connect_errno() )
-                        {
-                            die(mysqli_connect_error() );
-                        }
-                    //error end
-
-                    // Selects all from the result whose ssn is
-                    // specified by drop down menu (user only sees
-                    // the name but we track the ssn) and match
-                    // on department number to find their department.
-                    $sql = " SELECT hospital_name, covid_test
-                             FROM HOSPITAL
-                             WHERE county = '{$_GET['county']}'";
-
-                    if ($result = mysqli_query($connection, $sql))
-                    {
-                        while($row = mysqli_fetch_assoc($result))
-                        {
-                     ?>
-                <tr>
-                    <td><?php echo $row['hospital_name'] ?></td>
-                    <td><?php echo $row['covid_test'] ?></td>
-                </tr>
-                <?php
-                        } // release the memory used by the result set
-                        mysqli_free_result($result);
-                    }
-
-                  } // end if (isset)
-              } // end if ($_SERVER)
+                } // release the memory used by the result set
+                mysqli_free_result($result);
+            }
+            } // end if (isset)
+        } // end if ($_SERVER)
                 ?>
             </table>
-           
-        </form>
-
-    </div>
+    </form>
+</div>
 </body>
 </html>
 

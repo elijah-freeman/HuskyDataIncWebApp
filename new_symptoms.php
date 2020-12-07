@@ -19,17 +19,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 </head>
 <body>
-
-
-
-
-
-
-
-
-
-
-
 <div class="menubar-container">
     <!-- START Add HTML code for the top menu section (navigation bar) -->
     <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -72,17 +61,13 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
+                style="width:auto;">Sign Up</button>
     </nav>
-
-
-
-
-
-
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
-            <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <span  onclick="document.getElementById('id01').style.display='none'" class="close"
+                   title="Close Modal">&times;</span>
             <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="new_symptoms.php">
                 <div class="container">
                     <h1>Sign Up</h1>
@@ -93,7 +78,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     <label for="email"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" required>
                     <label for="user_id"><b>User ID</b></label>
-                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County"><b>County</b></label>
+                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County">
+                        <b>County</b></label>
                     <input type="text" placeholder="County" name="County" required>
                     <label for="Sex"><b>Sex</b></label>
                     <input type="text" placeholder="Enter Sex (F or M)" name="Sex" required>
@@ -108,14 +94,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                     // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],$_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
+                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],
+                            $_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
                             ?>
                             <?php
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error());
                             }
-                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, Case_start_data)
-                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', '{$_POST['Last_name']}', '{$_POST['County']}', 
+                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age,
+                                                                                                    Case_start_data)
+                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', 
+                                            '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
                             if (!mysqli_query($connection, $sql)) {
                                 echo "Error: Could not execute $sql";
@@ -138,18 +127,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         </script>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-<!-- END Add HTML code for the top menu section (navigation bar) -->
 <div class="jumbotron">
     <p style="font-size: 50px" class="lead">Describe your Symptoms</p>
     <hr class="my-4">

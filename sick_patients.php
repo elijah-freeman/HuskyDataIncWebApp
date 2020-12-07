@@ -58,7 +58,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
+                style="width:auto;">Sign Up</button>
     </nav>
 
 
@@ -68,7 +69,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
-            <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <span  onclick="document.getElementById('id01').style.display='none'" class="close"
+                   title="Close Modal">&times;</span>
             <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="sick_patients.php">
                 <div class="container">
                     <h1>Sign Up</h1>
@@ -79,7 +81,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     <label for="email"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" required>
                     <label for="user_id"><b>User ID</b></label>
-                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County"><b>County</b></label>
+                    <input type="text" placeholder="Enter User ID" name="user_id" required>
+                    <label for="County"><b>County</b></label>
                     <input type="text" placeholder="County" name="County" required>
                     <label for="Sex"><b>Sex</b></label>
                     <input type="text" placeholder="Enter Sex (F or M)" name="Sex" required>
@@ -94,14 +97,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                     // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],$_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
+                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],
+                            $_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
                             ?>
                             <?php
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error());
                             }
-                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, Case_start_data)
-                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', '{$_POST['Last_name']}', '{$_POST['County']}', 
+                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, 
+                                                                                                        Case_start_data)
+                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', 
+                                            '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
                             if (!mysqli_query($connection, $sql)) {
                                 echo "Error: Could not execute $sql";
@@ -124,104 +130,76 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         </script>
     </div>
 </div>
-
-
-
 <div class="jumbotron">
-        <p class="lead">Select disease</p>
-        <hr class="my-4">
-
-        <form method="GET" action="sick_patients.php">
-            <select name="infection_name" onchange='this.form.submit()'>
+    <p class="lead">Select disease</p>
+    <hr class="my-4">
+    <form method="GET" action="sick_patients.php">
+        <select name="infection_name" onchange='this.form.submit()'>
             <option selected>Select a disease</option>
-
             <?php
             $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-            if ( mysqli_connect_errno() )
-            {
+            if ( mysqli_connect_errno() ) {
                 die( mysqli_connect_error() );
             }
             // Query that retrieves the first and last name and SSN from
             // our EMPLOYEE table in our database.
             $sql = "select  infection_name from INFECTION";
-            if ($result = mysqli_query($connection, $sql))
-            {
+            if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
-                while($row = mysqli_fetch_assoc($result))
-                {
+                while($row = mysqli_fetch_assoc($result)) {
                     echo '<option value="' . $row['infection_name'] . '">';
                     echo $row['infection_name'];
                     echo "</option>";
-
                 } // release the memory used by the result set
                 mysqli_free_result($result);
-             }
+            }
             ?>
-            </select>
-
-            <!-- Works up until this point -->
-
-            <?php
-
-            if ($_SERVER["REQUEST_METHOD"] == "GET")
-            {
-                if (isset($_GET['infection_name']) )
-                {
-            ?>
-
-            <p>&nbsp;</p>
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="table-success">
-                            <th scope="col">Patient_id</th>
-                            <th scope="col">Severity</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">Email</th>
-                        </tr>
-                    </thead>
-
-                    <?php
-                    //error here
-                        if ( mysqli_connect_errno() )
-                        {
-                            die(mysqli_connect_error() );
-                        }
-                    //error end
-
-                    // SELECT patient_id, severity, age_range, patient_email
-                    // Shows that result who has that symptoms that we selected as an option
-
-                    $sql = " SELECT patient_id, severity, age_range, patient_email
-                             FROM PATIENT
-                             WHERE sickness_type = '{$_GET['infection_name']}'";
-                    //$result = mysql_query($query, $conn) or die(mysql_error());
-
-                    if ($result = mysqli_query($connection, $sql))
-                    {
-                        while($row = mysqli_fetch_assoc($result))
-                        {
-                     ?>
-                <tr>
-                    <td><?php echo $row['patient_id'] ?></td>
-                    <td><?php echo $row['severity'] ?></td>
-                    <td><?php echo $row['age_range'] ?></td>
-                    <td><?php echo $row['patient_email'] ?></td>
-                </tr>
-
-
-                <?php
-                        } // release the memory used by the result set
-                        mysqli_free_result($result);
-                    }
-
-                  } // end if (isset)
-              } // end if ($_SERVER)
+        </select>
+        <!-- Works up until this point -->
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            if (isset($_GET['infection_name']) ) {
                 ?>
-
-            </table>
-        </form>
-
-    </div>
+        <p>&nbsp;</p>
+        <table class="table table-hover">
+            <thead>
+            <tr class="table-success">
+                <th scope="col">Patient_id</th>
+                <th scope="col">Severity</th>
+                <th scope="col">Age</th>
+                <th scope="col">Email</th>
+            </tr>
+            </thead>
+            <?php
+            //error here
+            if ( mysqli_connect_errno() ) {
+                die(mysqli_connect_error() );
+            }
+            // SELECT patient_id, severity, age_range, patient_email
+            // Shows that result who has that symptoms that we selected as an option
+            $sql = " SELECT patient_id, severity, age_range, patient_email
+                     FROM PATIENT 
+                     WHERE sickness_type = '{$_GET['infection_name']}'";
+            //$result = mysql_query($query, $conn) or die(mysql_error());
+            if ($result = mysqli_query($connection, $sql)) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $row['patient_id'] ?></td>
+                        <td><?php echo $row['severity'] ?></td>
+                        <td><?php echo $row['age_range'] ?></td>
+                        <td><?php echo $row['patient_email'] ?></td>
+                    </tr>
+                    <?php
+                } // release the memory used by the result set
+                mysqli_free_result($result);
+            }
+            } // end if (isset)
+        } // end if ($_SERVER)
+            ?>
+        </table>
+    </form>
+</div>
 </body>
 </html>
 

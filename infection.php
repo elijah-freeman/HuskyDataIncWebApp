@@ -18,8 +18,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <link rel="stylesheet" href="signup.css">
 </head>
 <body>
-
-
 <div class="menubar-container">
     <!-- START Add HTML code for the top menu section (navigation bar) -->
     <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -62,17 +60,13 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
+                style="width:auto;">Sign Up</button>
     </nav>
-
-
-
-
-
-
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
-            <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <span  onclick="document.getElementById('id01').style.display='none'" class="close"
+                   title="Close Modal">&times;</span>
             <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="infection.php">
                 <div class="container">
                     <h1>Sign Up</h1>
@@ -83,7 +77,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     <label for="email"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" required>
                     <label for="user_id"><b>User ID</b></label>
-                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County"><b>County</b></label>
+                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County">
+                        <b>County</b></label>
                     <input type="text" placeholder="County" name="County" required>
                     <label for="Sex"><b>Sex</b></label>
                     <input type="text" placeholder="Enter Sex (F or M)" name="Sex" required>
@@ -98,14 +93,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                     // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],$_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
+                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],
+                            $_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
                             ?>
                             <?php
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error());
                             }
-                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, Case_start_data)
-                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', '{$_POST['Last_name']}', '{$_POST['County']}', 
+                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age,
+                                                                                                        Case_start_data)
+                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', 
+                                            '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
                             if (!mysqli_query($connection, $sql)) {
                                 echo "Error: Could not execute $sql";
@@ -129,69 +127,35 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- END Add HTML code for the top menu section (navigation bar) -->
 <div class="jumbotron">
     <p style="font-size: 50px" class="lead">Infection Dashboard</p>
     <hr class="my-4">
     <form method="GET" action="infection.php">
         <!-- div container for the drop down form select bar -->
-
-<div class="infection-container">
-        <div class="item-1">
-            <div class="form-group">
-                <select id="infection_select" class="custom-select" name="infection" onchange='this.form.submit()'>
-                    <option selected>Select an Infection</option>
-                    <?php
-                    $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-                    if (mysqli_connect_errno()) {
-                        die(mysqli_connect_error());
-                    }
-                    $sql = "SELECT DISTINCT infection_name FROM SYMPTOM";
-                    if ($result = mysqli_query($connection, $sql)) {
-                        // loop through the data
-                        while($row = mysqli_fetch_assoc($result)) {
-                            echo '<option value="' . $row['infection_name'] . '">';
-                            echo $row['infection_name'];
-                            echo "</option>";
-                        } // release the memory used by the result set
-                        mysqli_free_result($result);
-                    }
-                    ?>
-                </select>
+        <div class="infection-container">
+            <div class="item-1">
+                <div class="form-group">
+                    <select id="infection_select" class="custom-select" name="infection" onchange='this.form.submit()'>
+                        <option selected>Select an Infection</option>
+                        <?php
+                        $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                        if (mysqli_connect_errno()) {
+                            die(mysqli_connect_error());
+                        }
+                        $sql = "SELECT DISTINCT infection_name FROM SYMPTOM";
+                        if ($result = mysqli_query($connection, $sql)) {
+                            // loop through the data
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo '<option value="' . $row['infection_name'] . '">';
+                                echo $row['infection_name'];
+                                echo "</option>";
+                            } // release the memory used by the result set
+                            mysqli_free_result($result);
+                        }
+                        ?>
+                    </select>
+                </div>
             </div>
-        </div>
-
-
             <div class="item-2">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -228,9 +192,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 // end if ($_SERVER)
                 ?>
             </div>
-
-
-
             <div class="item-3">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -265,12 +226,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 // end if ($_SERVER)
                 ?>
             </div>
-
-
-
-
-
-
             <div class="item-4">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -278,7 +233,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 if (mysqli_connect_errno()) {
                     die(mysqli_connect_error() );
                 }
-
                 $sql = "SELECT DISTINCT description, infection_name
                             FROM SYMPTOM 
                             WHERE infection_name = '{$_GET['infection']}';";
@@ -326,9 +280,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     </div>
                 </div>
             </div>
-
-
-
             <div class="item-5">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -336,7 +287,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 if (mysqli_connect_errno()) {
                     die(mysqli_connect_error() );
                 }
-
                 if ($result = mysqli_query($connection, $sql)) {
                 ?>
                 <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
@@ -387,9 +337,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     </div>
                 </div>
             </div>
-
-
-
             <div class="item-6">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -398,58 +345,51 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             die(mysqli_connect_error() );
                         }
                         $sql = "SELECT  duration, age_range
-                            FROM PATIENT 
-                            WHERE sickness_type = '{$_GET['infection']}';";
+                                FROM PATIENT 
+                                WHERE sickness_type = '{$_GET['infection']}';";
                         if ($result = mysqli_query($connection, $sql)) {
                             ?>
-                            <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
-                                <div class="card-header">Patient Information</div>
-                                <div class="card-body">
-                                    <small style="padding-bottom: 15px" class="form-text">Information about patients who are
-                                        currently infected with <?php echo $_GET['infection'] ?>
-                                    </small>
-                                    <table cellpadding="10px" class="table table-hover" style="border-top: none;">
-                                        <thead>
-                                        <tr class="text-white">
-                                            <th scope="col">Severity</th>
-                                            <th scope="col">Duration in Hospital</th>
-                                            <th scope="col">Age</th>
-                                        </tr>
-                                        </thead>
-
-                                        <?php
-                                        if ( mysqli_connect_errno() )
-                                        {
-                                            die(mysqli_connect_error() );
-                                        }
+                <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Patient Information</div>
+                    <div class="card-body">
+                        <small style="padding-bottom: 15px" class="form-text">Information about patients who are
+                            currently infected with <?php echo $_GET['infection'] ?>
+                        </small>
+                        <table cellpadding="10px" class="table table-hover" style="border-top: none;">
+                            <thead>
+                            <tr class="text-white">
+                                <th scope="col">Severity</th>
+                                <th scope="col">Duration in Hospital</th>
+                                <th scope="col">Age</th>
+                            </tr>
+                            </thead>
+                            <?php
+                            if (mysqli_connect_errno()) {
+                                die(mysqli_connect_error() );
+                            }
                             $sql = "SELECT severity, duration, age_range
                             FROM PATIENT 
                             WHERE sickness_type = '{$_GET['infection']}';";
-
-                                        if ($result = mysqli_query($connection, $sql))
-                                        {
-                                            while($row = mysqli_fetch_assoc($result))
-                                            {
-                                                ?>
-                                                <tr class="text-white">
-                                                    <td><?php echo $row['severity'] ?></td>
-                                                    <td><?php echo $row['duration'] ?></td>
-                                                    <td><?php echo $row['age_range'] ?></td>
-                                                </tr>
-                                                <?php
-                                            } // release the memory used by the result set
-                                            mysqli_free_result($result);
-                                        }
-
-                                        } // end if (isset)
-                                        } // end if ($_SERVER)
-                                        }
-                                        ?>
-
-                                    </table>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
+                            if ($result = mysqli_query($connection, $sql)) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                    <tr class="text-white">
+                                        <td><?php echo $row['severity'] ?></td>
+                                        <td><?php echo $row['duration'] ?></td>
+                                        <td><?php echo $row['age_range'] ?></td>
+                                    </tr>
+                                    <?php
+                                } // release the memory used by the result set
+                                mysqli_free_result($result);
+                            }
+                        } // end if (isset)
+                    } // end if ($_SERVER)
+                }
+                ?>
+                        </table>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

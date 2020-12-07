@@ -16,12 +16,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         <link rel="stylesheet" href="signup.css">
     </head>
 <body>
-
-
-
-
-
-
 <div class="menubar-container">
     <!-- START Add HTML code for the top menu section (navigation bar) -->
     <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -64,17 +58,13 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
+                style="width:auto;">Sign Up</button>
     </nav>
-
-
-
-
-
-
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
-            <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">
+                &times;</span>
             <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="hospital.php">
                 <div class="container">
                     <h1>Sign Up</h1>
@@ -85,7 +75,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     <label for="email"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" required>
                     <label for="user_id"><b>User ID</b></label>
-                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County"><b>County</b></label>
+                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County">
+                        <b>County</b></label>
                     <input type="text" placeholder="County" name="County" required>
                     <label for="Sex"><b>Sex</b></label>
                     <input type="text" placeholder="Enter Sex (F or M)" name="Sex" required>
@@ -100,14 +91,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                     // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],$_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
+                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],
+                            $_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
                             ?>
                             <?php
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error());
                             }
-                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, Case_start_data)
-                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', '{$_POST['Last_name']}', '{$_POST['County']}', 
+                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, 
+                                                                                                    Case_start_data)
+                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', 
+                                            '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
                             if (!mysqli_query($connection, $sql)) {
                                 echo "Error: Could not execute $sql";
@@ -130,114 +124,82 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         </script>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-    <div class="jumbotron">
-        <p class="lead">Select Hospital Name.</p>
-        <hr class="my-4">
-
-        <form method="GET" action="hospital.php">
+<div class="jumbotron">
+    <p class="lead">Select Hospital Name.</p>
+    <hr class="my-4">
+    <form method="GET" action="hospital.php">
         <select name="hospital" onchange='this.form.submit()'>
             <option selected>Select a Hospital</option>
-
             <?php
             $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-            if ( mysqli_connect_errno() )
-            {
+            if ( mysqli_connect_errno() ) {
                 die( mysqli_connect_error() );
             }
             // Query that retrieves the first and last name and SSN from
             // our EMPLOYEE table in our database.
             $sql = "select hospital_name from HOSPITAL";
-            if ($result = mysqli_query($connection, $sql))
-            {
+            if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
-                while($row = mysqli_fetch_assoc($result))
-                {
+                while($row = mysqli_fetch_assoc($result)) {
                     echo '<option value="' . $row['hospital_name'] . '">';
                     echo $row['hospital_name'];
                     echo "</option>";
-
                 } // release the memory used by the result set
                 mysqli_free_result($result);
-             }
+            }
             ?>
-            </select>
-
-            <!-- Works up until this point -->
-
-            <?php
-
-            if ($_SERVER["REQUEST_METHOD"] == "GET")
-            {
-                if (isset($_GET['hospital']) )
-                {
-            ?>
-
-            <p>&nbsp;</p>
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="table-success">
-                            <th scope="col">Hospital Name</th>
-                            <th scope="col">Total bed</th>
-                            <th scope="col">Availability</th>
-                            <th scope="col">Covid-test</th>
-                        </tr>
-                    </thead>
-
-                    <?php
-                    //error here
-                        if ( mysqli_connect_errno() )
-                        {
-                            die(mysqli_connect_error() );
-                        }
-                    //error end
-
-                    // Selects all from the result whose ssn is
-                    // specified by drop down menu (user only sees
-                    // the name but we track the ssn) and match
-                    // on department number to find their department.
-                    $sql = " SELECT hospital_name, total_bed, availability_bed, covid_test
-                             FROM HOSPITAL
-                             WHERE hospital_name = '{$_GET['hospital']}'";
-
-                    if ($result = mysqli_query($connection, $sql))
-                    {
-                        while($row = mysqli_fetch_assoc($result))
-                        {
-                     ?>
-                <tr>
-                    <td><?php echo $row['hospital_name'] ?></td>
-                    <td><?php echo $row['total_bed'] ?></td>
-                    <td><?php echo $row['availability_bed'] ?></td>
-                    <td><?php echo $row['covid_test'] ?></td>
-                    <td colspan = "2" valign = 'right'>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5375.550587755085!2d-122.31277886511229!3d47.6499333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x98ab1d36f904c3a!2sMedical%20Specialties%20Center%20at%20UW%20Medical%20Center%20-%20Montlake!5e0!3m2!1sen!2sus!4v1606952950455!5m2!1sen!2sus" 
-                                width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                    </td>
-                </tr>
-
-
-                <?php
-                        } // release the memory used by the result set
-                        mysqli_free_result($result);
-                    }
-
-                  } // end if (isset)
-              } // end if ($_SERVER)
+        </select>
+        <!-- Works up until this point -->
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            if (isset($_GET['hospital'])) {
                 ?>
-            </table>
-        </form>
+        <p>&nbsp;</p>
+        <table class="table table-hover">
+            <thead>
+            <tr class="table-success">
+                <th scope="col">Hospital Name</th>
+                <th scope="col">Total bed</th>
+                <th scope="col">Availability</th>
+                <th scope="col">Covid-test</th>
+            </tr>
+            </thead>
+            <?php
+            //error here
+            if ( mysqli_connect_errno() ) {
+                die(mysqli_connect_error() );
+            }
+            //error end
+            // Selects all from the result whose ssn is
+            // specified by drop down menu (user only sees
+            // the name but we track the ssn) and match
+            // on department number to find their department.
+            $sql = " SELECT hospital_name, total_bed, availability_bed, covid_test
+                     FROM HOSPITAL WHERE hospital_name = '{$_GET['hospital']}'";
 
-    </div>
+            if ($result = mysqli_query($connection, $sql)) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $row['hospital_name'] ?></td>
+                        <td><?php echo $row['total_bed'] ?></td>
+                        <td><?php echo $row['availability_bed'] ?></td>
+                        <td><?php echo $row['covid_test'] ?></td>
+                        <td colspan = "2" valign = 'right'>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5375.550587755085!2d-122.31277886511229!3d47.6499333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x98ab1d36f904c3a!2sMedical%20Specialties%20Center%20at%20UW%20Medical%20Center%20-%20Montlake!5e0!3m2!1sen!2sus!4v1606952950455!5m2!1sen!2sus"
+                                width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                        </td>
+                    </tr>
+                    <?php
+                } // release the memory used by the result set
+                mysqli_free_result($result);
+            }
+            } // end if (isset)
+        } // end if ($_SERVER)
+            ?>
+        </table>
+    </form>
+</div>
 </body>
 </html>
 
