@@ -61,8 +61,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
-                style="width:auto;">Sign Up</button>
+        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'; hide_toggle()"
+                style="width:auto;"">Sign Up</button>
     </nav>
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
@@ -120,9 +120,12 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             var modal = document.getElementById('id01');
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
-                if (event.target == modal) {
+
+                if (event.target === modal) {
                     modal.style.display = "none";
+                    show_toggle()
                 }
+
             }
         </script>
     </div>
@@ -161,8 +164,10 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         <!-- TODO this seems like it should go in the database and not tied to the view-->
         <div class="item-2">
             <div id="new-symptom" class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="new-symptom-checkbox"
+
+                <div style="display: inline" id="check-box-container" class="custom-control custom-checkbox">
+
+                    <input  type="checkbox" class="custom-control-input" id="new-symptom-checkbox"
                            onchange="addNewSymptom()">
                     <label style="font-size: 17px" id='new-symptom-label' class="custom-control-label"
                            for="new-symptom-checkbox">Do you have a symptom that is not listed?
@@ -366,6 +371,12 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             document.getElementById('patientInput').style.display = 'none';
             document.getElementById('patient_help').style.display = 'none';
         }
+    }
+    function hide_toggle() {
+        document.getElementById('check-box-container').style.display = 'none';
+    }
+    function show_toggle() {
+        document.getElementById('check-box-container').style.display = 'inline';
     }
 </script>
 </body>
