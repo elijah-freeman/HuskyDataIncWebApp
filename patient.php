@@ -6,178 +6,239 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Patient Information</title>
-        <!-- add a reference to the external stylesheet -->
-        <!-- Uses the solar stylesheet from bootswatch -->
-        <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="patient_stylesheet.css">
-    </head>
-    <body>
-        <!-- START Add HTML code for the top menu section (navigation bar) -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Husky Data Health</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
-                    aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarColor02">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <!-- May need to modify the following line -->
-                        <a class="nav-link" href="index.php">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="infection.php">Infection</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="covid_test_center.php">Covid Test Centers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="high_risk.php">High Risk Areas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="hospital.php">Find a Hospital</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="patient.php">Patients</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="new_symptoms.php">New Symptom</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user_info.php">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="sick_patients.php">Sick Patients</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-        <!-- END Add HTML code for the top menu section (navigation bar) -->
-        <div class="jumbotron">
-            <p style="font-size: 50px" class="lead">Patient Dashboard</p>
-            <hr class="my-4">
-            <form method="GET" action="patient.php">
-                <div class="grid-container">
-                    <div class="grid-child1">
-                     <!-- div container for the drop down form select bar -->
-                        <div class="form-group">
-                            <h2 id="select-patient-label">Find Patient Information</h2>
-                            <p>Find a patient by their patient ID</p>
-                            <select class = "form-control" name="patient" onchange='this.form.submit()'
-                                    id='county_control_form'>
-                                <option selected>Locate a Patient</option>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Information</title>
+    <!-- add a reference to the external stylesheet -->
+    <!-- Uses the solar stylesheet from bootswatch -->
+    <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="patient_stylesheet.css">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+<div class="menubar-container">
+    <!-- START Add HTML code for the top menu section (navigation bar) -->
+    <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Husky Data Health</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <!-- May need to modify the following line -->
+                    <a class="nav-link" href="index.php">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="infection.php">Infection</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="covid_test_center.php">Covid Test Centers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="high_risk.php">High Risk Areas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="hospital.php">Find a Hospital</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="patient.php">Patients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="new_symptoms.php">New Symptom</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="user_info.php">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sick_patients.php">Sick Patients</a>
+                </li>
+            </ul>
+        </div>
+        <button class="btn btn-success my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
+                style="width:auto;">Sign Up</button>
+    </nav>
+    <div class="submit-user-button bg-dark" >
+        <div id="id01" class="modal">
+            <span  onclick="document.getElementById('id01').style.display='none'" class="close"
+                   title="Close Modal">&times;</span>
+            <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="patient.php">
+                <div class="container" >
+                    <h1>Sign Up</h1>
+                    <label for="First_name"><b>First Name</b></label>
+                    <input type="text" placeholder="Enter First Name" name="First_name" required>
+                    <label for="Last_name"><b>Last Name</b></label>
+                    <input type="text" placeholder="Enter Last Name" name="Last_name" required>
+                    <label for="email"><b>Email</b></label>
+                    <input type="text" placeholder="Enter Email" name="email" required>
+                    <label for="user_id"><b>User ID</b></label>
+                    <input type="text" placeholder="Enter User ID" name="user_id" required><label
+                            for="County"><b>County</b></label>
+                    <input type="text" placeholder="County" name="County" required>
+                    <label for="Sex"><b>Sex</b></label>
+                    <input type="text" placeholder="Enter Sex (F or M)" name="Sex" required>
+                    <label for="Age"><b>Age</b></label>
+                    <input type="text" placeholder="Enter Age" name="Age" required>
+                    <label for="case_start_date"><b>Case start Date</b></label>
+                    <input type="text" placeholder="case start date(MM-DD-YYY)" name="case_start_date" required>
+                    <div class="clearfix">
+                        <button type="submit" class="btn btn-primary" onclick='this.form.submit()'>Sign Up</button>
+                    </div>
+                    <?php
+                    $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                    // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        if (isset($_POST['First_name'], $_POST['Last_name'],$_POST['email'],$_POST['user_id'],
+                            $_POST['County'],$_POST['Sex'],$_POST['Age'],$_POST['case_start_date'])) {
+                            ?>
+                            <?php
+                            if (mysqli_connect_errno()) {
+                                die(mysqli_connect_error());
+                            }
+                            $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age,
+                                                                                                    Case_start_data)
+                                    VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}',
+                                            '{$_POST['Last_name']}', '{$_POST['County']}', 
+                                            '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
+                            if (!mysqli_query($connection, $sql)) {
+                                echo "Error: Could not execute $sql";
+                            }
+                        }
+                    }
+                    ?>
+                </div>
+            </form>
+        </div>
+        <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    </div>
+</div>
+<div class="jumbotron">
+    <p style="font-size: 50px" class="lead">Patient Dashboard</p>
+    <hr class="my-4">
+    <form method="GET" action="patient.php">
+        <div class="grid-container">
+            <div class="grid-child1">
+                <!-- div container for the drop down form select bar -->
+                <div class="form-group">
+                    <h2 id="select-patient-label">Find Patient Information</h2>
+                    <p>Find a patient by their patient ID</p>
+                    <select class = "form-control" name="patient" onchange='this.form.submit()'
+                                id='county_control_form'>
+                        <option selected>Locate a Patient</option>
+                        <?php
+                        $connection = mysqli_connect(DBHOST, DBUSER,DBPASS, DBNAME);
+                        if ( mysqli_connect_errno() ) {
+                            die( mysqli_connect_error() );
+                        }
+                        // Query that retrieves the first and last name and user_id from
+                        // our USER_INFO table in our database.
+                        $sql = "select patient_id from PATIENT ORDER BY patient_id ASC";
+                        if ($result = mysqli_query($connection, $sql)) {
+                            // loop through the data
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo '<option value="' . $row['patient_id'] . '">';
+                                echo $row['patient_id'];
+                                echo "</option>";
+                            } // release the memory used by the result set
+                            mysqli_free_result($result);
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="container-pat">
+                    <div class="item-a">
+                        <?php if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                            if (isset($_GET['patient'])) {
+                                ?>
                                 <?php
-                                $connection = mysqli_connect(DBHOST, DBUSER,
-                                                    DBPASS, DBNAME);
                                 if ( mysqli_connect_errno() ) {
-                                    die( mysqli_connect_error() );
+                                    die(mysqli_connect_error() );
                                 }
-                                // Query that retrieves the first and last name and user_id from
-                                // our USER_INFO table in our database.
-                                $sql = "select patient_id from PATIENT ORDER BY patient_id ASC";
+                                // Selects patient information from database using
+                                // their user_id.
+                                $sql = " SELECT * FROM PATIENT
+                                        WHERE patient_id = '{$_GET['patient']}' ";
                                 if ($result = mysqli_query($connection, $sql)) {
-                                    // loop through the data
                                     while($row = mysqli_fetch_assoc($result)) {
-                                        echo '<option value="' . $row['patient_id'] . '">';
-                                        echo $row['patient_id'];
-                                        echo "</option>";
+                                        ?>
+                                        <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+                                            <div class="card-header">Patient ID:
+                                                <?php echo $row['patient_id']?></div>
+                                            <div class="card-body">
+                                                <h4 class="card-title"><strong>Patient Information</strong></h4>
+                                                <p class="card-text"><span style="text-decoration: underline;">Sickness Type:</span>
+                                                    <em><?php echo $row['sickness_type'] ?></em></p>
+                                                <p class="card-text"><span style="text-decoration: underline;">Severity of Infection:</span>
+                                                    <em><?php echo $row['severity'] ?></em></p>
+                                                <p class="card-text"><span style="text-decoration: underline;">Age:</span>
+                                                    <em><?php echo $row['age_range'] ?></em></p>
+                                                <p class="card-text"><span style="text-decoration: underline;">Hospital Name:<br></span>
+                                                    <em><?php echo $row['hosp_name']?></em></p>
+                                                <p class="card-text"><span style="text-decoration: underline;">Days in Hospital:</span>
+                                                    <em><?php echo $row['duration'] ?></em></p>
+                                                <p class="card-text"><span style="text-decoration: underline;">Contact:<br></span>
+                                                    <em><?php echo $row['patient_email'] ?></em></p>
+                                            </div>
+                                        </div>
+                                        <?php
                                     } // release the memory used by the result set
                                     mysqli_free_result($result);
                                 }
+                            } // end if (isset)
+                        } // end if ($_SERVER)
+                        ?>
+                    </div>
+                    <div class="item-b">
+                        <?php
+                        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                            if (isset($_GET['patient']) ) {
                                 ?>
-                            </select>
-                        </div>
-                        <div class="container">
-                            <div class="item-a">
-                                <?php if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                                    if (isset($_GET['patient'])) {
-                                        ?>
-                                        <?php
-                                        if ( mysqli_connect_errno() ) {
-                                            die(mysqli_connect_error() );
-                                        }
-                                        // Selects patient information from database using
-                                        // their user_id.
-                                        $sql = " SELECT * FROM PATIENT
-                                                WHERE patient_id = '{$_GET['patient']}' ";
-                                        if ($result = mysqli_query($connection, $sql)) {
-                                            while($row = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
-                                                    <div class="card-header">Patient ID:
-                                                        <?php echo $row['patient_id']?></div>
-                                                    <div class="card-body">
-                                                        <h4 class="card-title"><strong>Patient Information</strong></h4>
-                                                        <p class="card-text"><span style="text-decoration: underline;">Sickness Type:</span>
-                                                            <em><?php echo $row['sickness_type'] ?></em></p>
-                                                        <p class="card-text"><span style="text-decoration: underline;">Severity of Infection:</span>
-                                                            <em><?php echo $row['severity'] ?></em></p>
-                                                        <p class="card-text"><span style="text-decoration: underline;">Age:</span><em><?php echo $row['age_range'] ?></em></p>
-                                                        <p class="card-text"><span style="text-decoration: underline;">Hospital Name:<br></span>
-                                                            <em><?php echo $row['hosp_name']?></em></p>
-                                                        <p class="card-text"><span style="text-decoration: underline;">Days in Hospital:</span>
-                                                            <em><?php echo $row['duration'] ?></em></p>
-                                                        <p class="card-text"><span style="text-decoration: underline;">Contact:<br></span>
-                                                            <em><?php echo $row['patient_email'] ?></em></p>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                            } // release the memory used by the result set
-                                            mysqli_free_result($result);
-                                        }
-                                    } // end if (isset)
-                                } // end if ($_SERVER)
-                                ?>
-                            </div>
-                            <div class="item-b">
                                 <?php
-                                if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                                    if (isset($_GET['patient']) ) {
+                                if ( mysqli_connect_errno() ) {
+                                    die(mysqli_connect_error() );
+                                }
+                                $sql = " select infection_name, infection_rate 
+                                        from INFECTION 
+                                        where infection_name IN (
+                                                            select sickness_type 
+                                                            from PATIENT 
+                                                            where patient_id = '{$_GET['patient']}') ";
+                                if ($result = mysqli_query($connection, $sql)) {
+                                    while($row = mysqli_fetch_assoc($result)) {
                                         ?>
+                                        <div class="alert alert-dismissible alert-primary">
+                                            <strong>Diagnosis</strong>
+                                            <p>This patient has been diagnosed with <em>
+                                                    <?php echo $row['infection_name'] ?></em>. This infection
+                                                has an infection rate of
+                                                <strong><?php echo $row['infection_rate'] ?></strong></p>
+                                        </div>
                                         <?php
-                                        if ( mysqli_connect_errno() ) {
-                                            die(mysqli_connect_error() );
-                                        }
-                                        $sql = " select infection_name, infection_rate 
-                                                from INFECTION 
-                                                where infection_name IN (
-                                                    select sickness_type 
-                                                    from PATIENT 
-                                                    where patient_id = '{$_GET['patient']}') ";
-                                        if ($result = mysqli_query($connection, $sql)) {
-                                            while($row = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                <div class="alert alert-dismissible alert-primary">
-                                                    <strong>Diagnosis</strong>
-                                                    <p>This patient has been diagnosed with <em>
-                                                            <?php echo $row['infection_name'] ?></em>. This infection
-                                                        has an infection rate of
-                                                        <strong><?php echo $row['infection_rate'] ?></strong></p>
-                                                </div>
-                                                <?php
-                                            } // release the memory used by the result set
-                                            mysqli_free_result($result);
-                                        }
-                                    }
-                                }?>
-                            </div>
-                            <div class="item-c">
-                                <?php
-                                if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                                    if (isset($_GET['patient'])) {
-                                        ?>
-                                        <?php
-                                        if ( mysqli_connect_errno() ) {
+                                    } // release the memory used by the result set
+                                    mysqli_free_result($result);
+                                }
+                            }
+                        }?>
+                    </div>
+                    <div class="item-c">
+                        <?php
+                        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                            if (isset($_GET['patient'])) {
+                                ?><?php
+                                if ( mysqli_connect_errno() ) {
                                             die(mysqli_connect_error() );
                                         }
                                         $sql = " select  infection_name, medication 
