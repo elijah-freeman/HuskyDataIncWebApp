@@ -58,7 +58,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
-        <button class="btn btn-secondary my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
+        <button class="btn btn-success my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
                 style="width:auto;">Sign Up</button>
     </nav>
     <div class="submit-user-button bg-dark" >
