@@ -91,7 +91,7 @@ Hospital:
                     <label for="email"><b>Email</b></label>
                     <input type="text" placeholder="Enter Email" name="email" required>
                     <label for="user_id"><b>User ID</b></label>
-                    <input type="text" placeholder="Enter User ID" name="user_id" required><label for="County">
+                    <input type="text" placeholder="Enter User ID (ex. 10000) " name="user_id" required><label for="County">
                         <b>County</b></label>
                     <input type="text" placeholder="County" name="County" required>
                     <label for="Sex"><b>Sex</b></label>
@@ -99,7 +99,7 @@ Hospital:
                     <label for="Age"><b>Age</b></label>
                     <input type="text" placeholder="Enter Age" name="Age" required>
                     <label for="case_start_date"><b>Case start Date</b></label>
-                    <input type="text" placeholder="case start date(MM-DD-YYY)" name="case_start_date" required>
+                    <input type="text" placeholder="YYYY-MM-DD" name="case_start_date" required>
                     <div class="clearfix">
                         <button type="submit" class="btn btn-primary" onclick='this.form.submit()'>Sign Up</button>
                     </div>
