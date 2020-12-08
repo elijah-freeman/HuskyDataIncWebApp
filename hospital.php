@@ -3,19 +3,30 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+Hospital:
+    Allows the user to find hospitals near them by selected from a set of locations. It also allows the user
+    to view information about the hospitals in a particular location near them. It also adds the functionality of
+    having google maps embedded in the website so the user can easily navigate to the hospitals exact location
+    if needed.
+
+    Note about google maps feature:
+
 -->
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Husky Data.Inc</title>
-		<!-- add a reference to the external stylesheet -->
-        <!-- Uses the solar stylesheet from bootswatch -->
+		<title>Find a Hospital</title>
+        <!-- Uses the solar stylesheet from bootswatch and signup stylesheet for layout
+             of the signup page and associated buttons. -->
 		<link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
         <link rel="stylesheet" href="signup.css">
     </head>
 <body>
+<!-- Container to hold the menubar and associated functionality. Sign-up toggle button is located
+     within this menu bar. -->
 <div class="menubar-container">
     <!-- START Add HTML code for the top menu section (navigation bar) -->
     <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,6 +36,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor02">
+            <!-- Unordered list of navigation items to other webpages. -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <!-- May need to modify the following line -->
@@ -41,6 +53,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 <li class="nav-item">
                     <a class="nav-link" href="high_risk.php">High Risk Areas</a>
                 </li>
+                <!-- List item for current page -->
                 <li class="nav-item active">
                     <a class="nav-link" href="hospital.php">Find a Hospital</a>
                 </li>
@@ -58,13 +71,20 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
+        <!-- Sign-up button. Opens a pop-up that allows a user to fill out information. -->
         <button class="btn btn-success my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
                 style="width:auto;">Sign Up</button>
     </nav>
+
+    <!-- Container for the the sign up popup. Allows user to register their information with our website. Does so
+         by using sql insert into HuskyDataInc Database. If the user clicks the sign-up button or clicks outside of the
+         focused frame then the signup popup will disappear and no information will be recorded.-->
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
+            <!-- Exit button -->
             <span  onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">
                 &times;</span>
+            <!-- Sign up form -->
             <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="hospital.php">
                 <div class="container">
                     <h1>Sign Up</h1>
@@ -87,6 +107,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     <div class="clearfix">
                         <button type="submit" class="btn btn-primary" onclick='this.form.submit()'>Sign Up</button>
                     </div>
+                    <!-- In this form, we connect the HuskyDataInc database and after we have established a connection
+                         we use http POST method to send information to the database. -->
                     <?php
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                     // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
@@ -98,13 +120,19 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error());
                             }
+                            // Inserts user information into the USER_INFO table of the Husky Data Inc. database.
                             $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age, 
                                                                                                     Case_start_data)
                                     VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', 
                                             '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
+
+
+                            // If there is an error, we notify the user to contact their administrator. This
+                            // error will occur if the input data by the user is bad.
                             if (!mysqli_query($connection, $sql)) {
-                                echo "Error: Could not execute $sql";
+                                // echo "Error: Could not execute $sql";
+                                echo "An error has occurred, please contact administrator.";
                             }
                         }
                     }
@@ -112,6 +140,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </div>
             </form>
         </div>
+        <!-- JavaScript that allows for the sign-up popup feature to appear and disappear according
+             to where the user of the website clicks. -->
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
@@ -123,7 +153,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             }
         </script>
     </div>
-</div>
+</div> <!-- Close the menubar container. -->
+
+<!-- The following class contains the main content of the webpage. -->
 <div class="jumbotron">
     <p class="lead">Select Hospital Name.</p>
     <hr class="my-4">
@@ -135,8 +167,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             if ( mysqli_connect_errno() ) {
                 die( mysqli_connect_error() );
             }
-            // Query that retrieves the first and last name and SSN from
-            // our EMPLOYEE table in our database.
+            // Query that selects all names of hospitals that are currently stored in the Hospital table of
+            // the HuskyDataInc database.
             $sql = "select hospital_name from HOSPITAL";
             if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
@@ -149,12 +181,14 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             }
             ?>
         </select>
-        <!-- Works up until this point -->
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if (isset($_GET['hospital'])) {
                 ?>
         <p>&nbsp;</p>
+
+        <!-- This table displays the Hospital name, total number of beds in the hospital, the total number
+             of available beds in the hospital and whether or not this hospital is covid test center. -->
         <table class="table table-hover">
             <thead>
             <tr class="table-success">
@@ -165,15 +199,12 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             </tr>
             </thead>
             <?php
-            //error here
             if ( mysqli_connect_errno() ) {
                 die(mysqli_connect_error() );
             }
-            //error end
-            // Selects all from the result whose ssn is
-            // specified by drop down menu (user only sees
-            // the name but we track the ssn) and match
-            // on department number to find their department.
+
+            // Selects the hospital name, total beds, available beds, covid_test availability from the
+            // Hospital table in the HuskyDataInc database.
             $sql = " SELECT hospital_name, total_bed, availability_bed, covid_test
                      FROM HOSPITAL WHERE hospital_name = '{$_GET['hospital']}'";
 

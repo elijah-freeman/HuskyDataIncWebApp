@@ -3,6 +3,8 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+
 -->
 <!DOCTYPE html>
     <html lang="en">
@@ -10,17 +12,15 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Assignment 4 Demo</title>
-            <!-- add a reference to the external stylesheet -->
+            <!-- Uses the solar stylesheet from bootswatch and signup stylesheet for layout
+             of the signup page and associated buttons. -->
             <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
             <link rel="stylesheet" href="signup.css">
         </head>
     <body>
-
-
-
-
+    <!-- Container to hold the menubar and associated functionality. Sign-up toggle button is located
+     within this menu bar. -->
     <div class="menubar-container">
-        <!-- START Add HTML code for the top menu section (navigation bar) -->
         <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Husky Data Health</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
@@ -28,9 +28,10 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarColor02">
+                <!-- Unordered list of navigation items to other webpages. -->
                 <ul class="navbar-nav mr-auto">
+                    <!-- List item for current page -->
                     <li class="nav-item active">
-                        <!-- May need to modify the following line -->
                         <a class="nav-link" href="index.php">Home
                             <span class="sr-only">(current)</span>
                         </a>
@@ -61,19 +62,22 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     </li>
                 </ul>
             </div>
+            <!-- Sign-up button. Opens a pop-up that allows a user to fill out information. -->
             <button class="btn btn-secondary my-2 my-sm-0"
                     onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
         </nav>
 
 
 
-
-
-
+        <!-- Container for the the sign up popup. Allows user to register their information with our website. Does so
+         by using sql insert into HuskyDataInc Database. If the user clicks the sign-up button or clicks outside of the
+         focused frame then the signup popup will disappear and no information will be recorded.-->
         <div class="submit-user-button bg-dark" >
             <div id="id01" class="modal">
+                <!-- Exit button -->
                 <span  onclick="document.getElementById('id01').style.display='none'" class="close"
                        title="Close Modal">&times;</span>
+                <!-- Sign up form -->
                 <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="index.php">
                     <div class="container">
                         <h1>Sign Up</h1>
@@ -96,6 +100,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         <div class="clearfix">
                             <button type="submit" class="btn btn-primary" onclick='this.form.submit()'>Sign Up</button>
                         </div>
+                        <!-- In this form, we connect the HuskyDataInc database and after we have established a connection
+                         we use http POST method to send information to the database. -->
                         <?php
                         $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                         // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
@@ -107,20 +113,29 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 if (mysqli_connect_errno()) {
                                     die(mysqli_connect_error());
                                 }
+                                // Inserts user information into the USER_INFO table of the Husky Data Inc. database.
                                 $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age,
                                                                                                         Case_start_data)
                                     VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}', 
                                             '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
+
+
+                                // If there is an error, we notify the user to contact their administrator. This
+                                // error will occur if the input data by the user is bad.
                                 if (!mysqli_query($connection, $sql)) {
-                                    echo "Error: Could not execute $sql";
+                                    // echo "Error: Could not execute $sql";
+                                    echo "An error has occurred, please contact administrator.";
                                 }
+
                             }
                         }
                         ?>
                     </div>
                 </form>
             </div>
+            <!-- JavaScript that allows for the sign-up popup feature to appear and disappear according
+             to where the user of the website clicks. -->
             <script>
                 // Get the modal
                 var modal = document.getElementById('id01');
@@ -132,10 +147,10 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 }
             </script>
         </div>
-    </div>
+    </div> <!-- Close the menubar container. -->
 
 
-        <!-- END -- Add HTML code for the top menu section (navigation bar) -->
+    <!-- The following class contains the main content of the webpage. -->
         <div class="jumbotron">
             <h1 class="display-3"> <img src="husky-data-inc.png" alt="Husky Data Inc."> Welcome to Husky Data Inc.</h1>
 

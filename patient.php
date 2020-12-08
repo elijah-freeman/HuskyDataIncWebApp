@@ -3,6 +3,17 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+
+Patient Dashboard:
+    This webpage allows the user to locate information about a particular patient. This webpage is intended
+    to be used by authorized medical service providers. The user will select a patient id from a drop down menu
+    and then will be able to see relevant information. This includes multiple cards that display the patient
+    diagnosis along with infection rate, type of medication that can be used. It also display additional
+    information about the particular patient such as their hospital, contact info, etc.
+
+    On the right hand side of the webpage, the user will be able to see all the patients in the database
+    with an infection severity that is higher than average. These are the patients with the most urgent infections.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -10,13 +21,15 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Information</title>
-    <!-- add a reference to the external stylesheet -->
-    <!-- Uses the solar stylesheet from bootswatch -->
+    <!-- Uses the solar stylesheet from bootswatch and signup stylesheet for layout
+             of the signup page and associated buttons. -->
     <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="patient_stylesheet.css">
     <link rel="stylesheet" href="signup.css">
 </head>
 <body>
+<!-- Container to hold the menubar and associated functionality. Sign-up toggle button is located
+     within this menu bar. -->
 <div class="menubar-container">
     <!-- START Add HTML code for the top menu section (navigation bar) -->
     <nav id = "nav-area" class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -26,6 +39,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor02">
+            <!-- Unordered list of navigation items to other webpages. -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <!-- May need to modify the following line -->
@@ -45,6 +59,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 <li class="nav-item">
                     <a class="nav-link" href="hospital.php">Find a Hospital</a>
                 </li>
+                <!-- List item for current page -->
                 <li class="nav-item active">
                     <a class="nav-link" href="patient.php">Patients</a>
                 </li>
@@ -59,13 +74,20 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </li>
             </ul>
         </div>
+        <!-- Sign-up button. Opens a pop-up that allows a user to fill out information. -->
         <button class="btn btn-success my-2 my-sm-0" onclick="document.getElementById('id01').style.display='block'"
                 style="width:auto;">Sign Up</button>
     </nav>
+
+    <!-- Container for the the sign up popup. Allows user to register their information with our website. Does so
+         by using sql insert into HuskyDataInc Database. If the user clicks the sign-up button or clicks outside of the
+         focused frame then the signup popup will disappear and no information will be recorded.-->
     <div class="submit-user-button bg-dark" >
         <div id="id01" class="modal">
+            <!-- Exit button -->
             <span  onclick="document.getElementById('id01').style.display='none'" class="close"
                    title="Close Modal">&times;</span>
+            <!-- Sign up form -->
             <form  style="border-color: #474e5d" class="modal-content bg-dark" method="POST" action="patient.php">
                 <div class="container" >
                     <h1>Sign Up</h1>
@@ -88,6 +110,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     <div class="clearfix">
                         <button type="submit" class="btn btn-primary" onclick='this.form.submit()'>Sign Up</button>
                     </div>
+                    <!-- In this form, we connect the HuskyDataInc database and after we have established a connection
+                         we use http POST method to send information to the database. -->
                     <?php
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                     // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
@@ -99,20 +123,28 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error());
                             }
+                            // Inserts user information into the USER_INFO table of the Husky Data Inc. database.
                             $sql = "INSERT INTO USER_INFO(user_id, email, first_name, last_name, county, sex, age,
                                                                                                     Case_start_data)
                                     VALUES ({$_POST['user_id']}, '{$_POST['email']}', '{$_POST['First_name']}',
                                             '{$_POST['Last_name']}', '{$_POST['County']}', 
                                             '{$_POST['Sex']}', {$_POST['Age']}, '{$_POST['case_start_date']}')";
+
+                            // If there is an error, we notify the user to contact their administrator. This
+                            // error will occur if the input data by the user is bad.
                             if (!mysqli_query($connection, $sql)) {
-                                echo "Error: Could not execute $sql";
+                                // echo "Error: Could not execute $sql";
+                                echo "An error has occurred, please contact administrator.";
                             }
+
                         }
                     }
                     ?>
                 </div>
             </form>
         </div>
+        <!-- JavaScript that allows for the sign-up popup feature to appear and disappear according
+             to where the user of the website clicks. -->
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
@@ -124,11 +156,14 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             }
         </script>
     </div>
-</div>
+</div> <!-- Close the menubar container. -->
+
+<!-- The following class contains the main content of the webpage. -->
 <div class="jumbotron">
     <p style="font-size: 50px" class="lead">Patient Dashboard</p>
     <hr class="my-4">
     <form method="GET" action="patient.php">
+
         <div class="grid-container">
             <div class="grid-child1">
                 <!-- div container for the drop down form select bar -->
@@ -143,8 +178,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         if ( mysqli_connect_errno() ) {
                             die( mysqli_connect_error() );
                         }
-                        // Query that retrieves the first and last name and user_id from
-                        // our USER_INFO table in our database.
+                        // Select all the patient id from the patient table and order them in ascending order.
                         $sql = "select patient_id from PATIENT ORDER BY patient_id ASC";
                         if ($result = mysqli_query($connection, $sql)) {
                             // loop through the data
@@ -201,6 +235,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         } // end if ($_SERVER)
                         ?>
                     </div>
+
+                    <!-- Item b contains the diagnosis card. In this card, there is a description of the
+                         the patients diagnosis and the infection rate. -->
                     <div class="item-b">
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -210,6 +247,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 if ( mysqli_connect_errno() ) {
                                     die(mysqli_connect_error() );
                                 }
+
+                                // Select the infection name and infection rate from infection where
+                                // the infection matches the patients infections.
                                 $sql = " select infection_name, infection_rate 
                                         from INFECTION 
                                         where infection_name IN (
@@ -219,6 +259,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 if ($result = mysqli_query($connection, $sql)) {
                                     while($row = mysqli_fetch_assoc($result)) {
                                         ?>
+                                            <!-- The card that displays information to the user. -->
                                         <div class="alert alert-dismissible alert-primary">
                                             <strong>Diagnosis</strong>
                                             <p>This patient has been diagnosed with <em>
@@ -233,6 +274,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             }
                         }?>
                     </div>
+
+                    <!-- Card c contains the medication card that displays information about the medication that
+                         should be used for their infection. -->
                     <div class="item-c">
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -241,15 +285,20 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 if ( mysqli_connect_errno() ) {
                                             die(mysqli_connect_error() );
                                         }
+
+                                        // This is the same query that was used previously but we are now interested
+                                        // in retrieving the medication.
                                         $sql = " select  infection_name, medication 
                                                 from INFECTION 
                                                 where infection_name IN (
                                                     select sickness_type 
                                                     from PATIENT 
                                                     where patient_id = '{$_GET['patient']}') ";
+
                                         if ($result = mysqli_query($connection, $sql)) {
                                             while($row = mysqli_fetch_assoc($result)) {
                                                 ?>
+                                                    <!-- The card that displays the medication information -->
                                                 <div class="alert alert-dismissible alert-success">
                                                     <strong>Medication</strong><p>This patient has been diagnosed
                                                         with <em><?php echo $row['infection_name']?></em>.
@@ -262,12 +311,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                     }
                                 }?>
                             </div>
+
+                            <!-- Item d contains a table that displays all of the symptoms that this patient
+                                 is exhibiting. -->
                             <div class="item-d">
                                     <?php
                                     if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         if (isset($_GET['patient']) ) {
                                             ?>
                                         <h3>Patients Symptoms</h3>
+
+                                        <!-- Table displays the list of symptoms and their severity for the patient. -->
                                         <table class="table table-hover">
                                             <thead>
                                             <tr class="table-info">
@@ -302,6 +356,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             </div>
                         </div>
                     </div>
+
+                    <!-- Contains the table on the right hand side of the website that contains the patients that
+                         exhibit the most severe infections. -->
                     <div class="grid-child2">
                         <h2>Patients with the most severe symptoms</h2>
                         <p>The following patients below exhibit symptom severity that is higher
@@ -326,8 +383,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             if ( mysqli_connect_errno() ) {
                                 die(mysqli_connect_error() );
                             }
-                            // Selects patient information from database using
-                            // their user_id.
+                            // Selects patients who exhibit higher than average severity.
                             $sql = "SELECT *
                                     FROM PATIENT P1
                                     WHERE SEVERITY >(SELECT AVG(SEVERITY)
