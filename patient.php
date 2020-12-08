@@ -6,14 +6,14 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 
 Patient Dashboard:
-    This webpage allows the user to locate information about a particular patient. This webpage is intended
-    to be used by authorized medical service providers. The user will select a patient id from a drop down menu
-    and then will be able to see relevant information. This includes multiple cards that display the patient
-    diagnosis along with infection rate, type of medication that can be used. It also display additional
-    information about the particular patient such as their hospital, contact info, etc.
+    This webpage allows the user to locate information about a particular patient. This webpage is intended to be
+    used by authorized medical service providers. The user will select a patient id from a drop down menu and then
+    will be able to see relevant information. This includes multiple cards that display the patient's diagnosis along
+    with infection rate, type of medication that can be used. It also displays additional information about the
+    particular patient such as their hospital, contact info, etc.
 
-    On the right hand side of the webpage, the user will be able to see all the patients in the database
-    with an infection severity that is higher than average. These are the patients with the most urgent infections.
+    On the right hand side of the webpage, the user will be able to see all the patients in the database with an
+    infection severity that is higher than average. These are the patients with the most urgent infections.
 -->
 <!DOCTYPE html>
 <html lang="en">

@@ -5,13 +5,9 @@ Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 Hospital:
-    Allows the user to find hospitals near them by selected from a set of locations. It also allows the user
-    to view information about the hospitals in a particular location near them. It also adds the functionality of
-    having google maps embedded in the website so the user can easily navigate to the hospitals exact location
-    if needed.
-
-    Note about google maps feature:
-
+    Allows the user to find hospitals near them by selecting from a set of locations. It also allows the user to view
+    information about the hospitals in a particular location near them. It also adds the functionality of having
+    google maps embedded in the website so the user can easily navigate to the hospital's exact location if needed.
 -->
 <!DOCTYPE html>
 <html lang="en">

@@ -5,18 +5,19 @@ Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 Describe your Symptoms:
-    This webpage allows users upload a symptom into the HuskyDataInc database. The webpage allows the user to
-    choose from a dropdown menu of symptoms that are currently stored in the database. If the user cannot
-    find their symptom then they can have the option to enter a new symptom into the database.
+
+    This webpage allows users to upload a symptom into the HuskyDataInc database. The webpage allows the user to
+    choose from a dropdown menu of symptoms that are currently stored in the database. If the user cannot find their
+    symptom then they can have the option to enter a new symptom into the database.
 
     The user also is allowed to select the severity of their symptom which is then recorded.
 
-    The user can also specify whether or not they have been diagnosed with a particular infection. If they have
-    been diagnosed with an infection then they are prompted to record the infection name. This infection name
-    will be associated with their symptom.
+    The user can also specify whether or not they have been diagnosed with a particular infection. If they have been
+    diagnosed with an infection then they are prompted to record the infection name. This infection name will be
+    associated with their symptoms.
 
-    The webpage also allows the user to specify whether this symptom is for a current patient. If the user
-    is a patient then they are prompted to enter their unique patient ID number.
+    The webpage also allows the user to specify whether this symptom is for a current patient. If the user is a
+    patient then they are prompted to enter their unique patient ID number.
 -->
 
 <!DOCTYPE html>

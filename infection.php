@@ -7,11 +7,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 Infection Dashboard:
     This webpage allows users to view and analyze key information about a particular infection selected by the user.
     The user can select from a drop down selection menu the infection name they would like to find more information
-    about.
-
-    Once selected, the webpage will display a series of cards: Infection, Symptom, Information about patients
+    about. Once selected, the webpage will display a series of cards: Infection, Symptom, Information about patients
     who are infected with specified infection, Medication, Locations and counts of selected infections. Incorporates
-    majority of tables in HuskyDataInc database.
+    the majority of tables in HuskyDataInc database.
 -->
 
 <!DOCTYPE html>

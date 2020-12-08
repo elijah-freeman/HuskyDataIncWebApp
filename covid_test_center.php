@@ -1,15 +1,13 @@
 <?php require_once('config.php'); ?>
-<!-- Elijah Freeman -->
 <!--
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 Covid Test Center page:
-    Responsible for allowing the user find hospitals that have covid
-    testing available by selecting a location. Testing is available
-    at a particular hospital if the result of the covid test is designated
-    as 1. If 0, then hospital does not have a covid testing center.
+    Responsible for allowing the user to find hospitals that have covid testing available by selecting a location.
+    Testing is available at a particular hospital if the result of the covid test is designated as 1. If 0, then the
+    hospital does not have a covid testing center.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +21,8 @@ Covid Test Center page:
         <link rel="stylesheet" href="signup.css">
     </head>
 <body>
+
+
 <!-- Container to hold the menubar and associated functionality. Sign-up toggle button is located
      within this menu bar. -->
 <div class="menubar-container">
@@ -152,6 +152,9 @@ Covid Test Center page:
     </div>
 
 </div> <!-- Close the menubar container. -->
+
+
+
 
 <!-- The following class contains the main content of the webpage. -->
 <div class="jumbotron">

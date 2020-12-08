@@ -5,9 +5,8 @@ Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 User Information:
-    This webpage allows the the user to look at the profile of another user. The users information
+     This webpage allows the user to look at the profile of another user. The users information
     is then displayed to the webpage.
-
 -->
 <!DOCTYPE html>
 <html lang="en">
