@@ -3,6 +3,10 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+Sick Patient:
+    This webpage allows the user to select an infection type and then see all the patient and relevant information
+    who currently have the infection that is selected for by the user.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -159,8 +163,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             if ( mysqli_connect_errno() ) {
                 die( mysqli_connect_error() );
             }
-            // Query that retrieves the first and last name and SSN from
-            // our EMPLOYEE table in our database.
+            // Select all the infection names from the infection table.
             $sql = "select  infection_name from INFECTION";
             if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
@@ -173,7 +176,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             }
             ?>
         </select>
-        <!-- Works up until this point -->
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if (isset($_GET['infection_name']) ) {

@@ -3,6 +3,15 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+Infection Dashboard:
+    This webpage allows users to view and analyze key information about a particular infection selected by the user.
+    The user can select from a drop down selection menu the infection name they would like to find more information
+    about.
+
+    Once selected, the webpage will display a series of cards: Infection, Symptom, Information about patients
+    who are infected with specified infection, Medication, Locations and counts of selected infections. Incorporates
+    majority of tables in HuskyDataInc database.
 -->
 
 <!DOCTYPE html>
@@ -152,8 +161,13 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <p style="font-size: 50px" class="lead">Infection Dashboard</p>
     <hr class="my-4">
     <form method="GET" action="infection.php">
-        <!-- div container for the drop down form select bar -->
+
+        <!-- Infection container is contains all the cards and the select menu for the webpage, required for
+             layout of the webpage. -->
         <div class="infection-container">
+
+            <!-- Item-1 represents the select drop down menu that allows the user to select a particular infection
+                 to examine.  -->
             <div class="item-1">
                 <div class="form-group">
                     <select id="infection_select" class="custom-select" name="infection" onchange='this.form.submit()'>
@@ -163,6 +177,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         if (mysqli_connect_errno()) {
                             die(mysqli_connect_error());
                         }
+
+                        // Sql query that selects all the infection names from the Infection table.
                         $sql = "SELECT DISTINCT infection_name FROM SYMPTOM";
                         if ($result = mysqli_query($connection, $sql)) {
                             // loop through the data
@@ -177,6 +193,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     </select>
                 </div>
             </div>
+
+            <!-- Item 2 contains the infection card. The infection card displays the infection name, the infection
+                 rate, and the total number of cases. -->
             <div class="item-2">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -184,10 +203,15 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         if (mysqli_connect_errno()) {
                             die(mysqli_connect_error() );
                         }
+
+                        // Selects the infection name, infection rate, and the number of infections from the
+                        // Infection table for the infection that was selected by the user.
                         $sql = "SELECT DISTINCT infection_name, infection_rate, num_of_infections
                             FROM INFECTION
                             WHERE infection_name = '{$_GET['infection']}';";
+
                         if ($result = mysqli_query($connection, $sql)) {
+                            // Creates an array that will store the information that is retrieved from the database.
                             $array = array();
                             while($row = mysqli_fetch_assoc($result)) {
                                 array_push($array, $row['infection_rate'], $row['num_of_infections']);
@@ -196,6 +220,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 array_push($array, 'Unknown', 'Unknown');
                             }
                             ?>
+                            <!-- Display the information in the card -->
                             <div class="card text-white bg-warning mb-3" style="max-width: 20rem;">
                                 <div class="card-header">Infection</div>
                                 <div class="card-body">
@@ -213,6 +238,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 // end if ($_SERVER)
                 ?>
             </div>
+
+            <!-- Item 3 is the container for the medication card. In this card, we display the medication
+                 that is associated with the particular infection that was selected by the user. -->
             <div class="item-3">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -220,9 +248,14 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         if (mysqli_connect_errno()) {
                             die(mysqli_connect_error() );
                         }
+
+                        // Select the name of the medication from the Infection table that is associated with the
+                        // infection selected by the user.
                         $sql = "SELECT medication
                             FROM INFECTION 
                             WHERE infection_name = '{$_GET['infection']}';";
+
+                        // Retrieve information from the database and store it in an array.
                         if ($result = mysqli_query($connection, $sql)) {
                             $array = array();
                             while($row = mysqli_fetch_assoc($result)) {
@@ -232,6 +265,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 array_push($array, 'Unknown', 'Unknown');
                             }
                             ?>
+
+                            <!-- Display the information in the card -->
                             <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
                                 <div class="card-header">Medication</div>
                                 <div class="card-body">
@@ -247,6 +282,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 // end if ($_SERVER)
                 ?>
             </div>
+
+            <!-- Item 4 contains the symptoms card which displays all of the symptoms that have been associated
+                 with the infection chosen by the user -->
             <div class="item-4">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -254,12 +292,16 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 if (mysqli_connect_errno()) {
                     die(mysqli_connect_error() );
                 }
+
+                // Select all distinct symptom names for the infection chosen by the user.
                 $sql = "SELECT DISTINCT description, infection_name
                             FROM SYMPTOM 
                             WHERE infection_name = '{$_GET['infection']}';";
 
                 if ($result = mysqli_query($connection, $sql)) {
                 ?>
+
+                <!-- Display the symptom information using a table that has been embedded into the card. -->
                 <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                     <div class="card-header">Symptoms</div>
                     <div class="card-body">
@@ -272,19 +314,18 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             {
                                 die(mysqli_connect_error() );
                             }
+
+                            // Select all the symptom names that are to be displayed in the table.
                             $sql = "SELECT DISTINCT description, infection_name
                                     FROM SYMPTOM 
                                     WHERE infection_name = '{$_GET['infection']}';";
 
-                            if ($result = mysqli_query($connection, $sql))
-                            {
-                                while($row = mysqli_fetch_assoc($result))
-                                {
+                            if ($result = mysqli_query($connection, $sql)) {
+                                while($row = mysqli_fetch_assoc($result)) {
                                     ?>
                                     <tr>
                                         <td class="text-white" style="font-size: 16px"><?php echo $row['description'] ?></td>
                                     </tr>
-
 
                                     <?php
                                 } // release the memory used by the result set
@@ -301,6 +342,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     </div>
                 </div>
             </div>
+
+            <!-- Item 5 contains the card that contains all of the locations and the current counts of cases for
+                 the infection selected by the user. -->
             <div class="item-5">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -316,6 +360,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         <small style="padding-bottom: 15px" class="form-text">Patients who have <?php echo $_GET['infection'] ?>
                             can be found in the following locations:
                         </small>
+
+                        <!-- Embedded table that displays the location and number of cases in that location
+                             for the infection specified by the user. -->
                         <table cellpadding="10px" class="table table-hover" style="border-top: none;">
                             <thead>
                             <tr class="text-white">
@@ -324,20 +371,21 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             </tr>
                             </thead>
                             <?php
-                            if ( mysqli_connect_errno() )
-                            {
+                            if ( mysqli_connect_errno() ) {
                                 die(mysqli_connect_error() );
                             }
+
+                            // Sql query that joins the Patient and hospital on the hospital and then finds the
+                            // county, the infection name, and then counts the number of patients who are currently
+                            // in that location who are also infected with the specified infection.
                             $sql = "SELECT DISTINCT county, sickness_type, COUNT(county) as infection_count
                                 FROM (SELECT county, sickness_type, infection_rate
                                 FROM HOSPITAL JOIN PATIENT ON HOSPITAL.hospital_name = PATIENT.hosp_name, INFECTION
                                 WHERE PATIENT.sickness_type = INFECTION.infection_name) T1
                                 WHERE sickness_type = '{$_GET['infection']}' GROUP BY county";
 
-                            if ($result = mysqli_query($connection, $sql))
-                            {
-                                while($row = mysqli_fetch_assoc($result))
-                                {
+                            if ($result = mysqli_query($connection, $sql)) {
+                                while($row = mysqli_fetch_assoc($result)) {
                                     ?>
                                     <tr class="text-white">
                                         <td><?php echo $row['county'] ?></td>
@@ -358,6 +406,10 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     </div>
                 </div>
             </div>
+
+            <!-- Item 6 contains the Patient information card. This card allows the user to view relevant information
+                 about the patients have this particular infections such as the severity of there infection, their age,
+                 and the length of time they have spent in the hospital for this infection. -->
             <div class="item-6">
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -376,6 +428,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         <small style="padding-bottom: 15px" class="form-text">Information about patients who are
                             currently infected with <?php echo $_GET['infection'] ?>
                         </small>
+
+                        <!-- Embedded table that displays the severity, duration in hospital, and the age of the
+                             patients who are infected with this infection. -->
                         <table cellpadding="10px" class="table table-hover" style="border-top: none;">
                             <thead>
                             <tr class="text-white">
@@ -388,6 +443,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             if (mysqli_connect_errno()) {
                                 die(mysqli_connect_error() );
                             }
+
+                            // Select the severity, duration, and age of the patients from the Patient table in
+                            // the HuskyDataInc database.
                             $sql = "SELECT severity, duration, age_range
                             FROM PATIENT 
                             WHERE sickness_type = '{$_GET['infection']}';";
@@ -411,8 +469,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         <p class="card-text"></p>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> <!-- End item 6 container -->
+
+        </div> <!-- End infection container -->
     </form>
 </body>
 </html>

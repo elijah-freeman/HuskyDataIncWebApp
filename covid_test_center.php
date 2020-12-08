@@ -165,8 +165,8 @@ Covid Test Center page:
             if ( mysqli_connect_errno() ) {
                 die( mysqli_connect_error() );
             }
-            // Query that retrieves the first and last name and SSN from
-            // our EMPLOYEE table in our database.
+            // Query that retrieves a distinct counties from LOCATION table
+            // and displays them through a drop down select menu
             $sql = "select DISTINCT county from LOCATION";
             if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
@@ -183,6 +183,10 @@ Covid Test Center page:
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if (isset($_GET['county'])) {
                 ?>
+
+        <!-- The table displays the hospital name(s)  and whether or not the hospital is equipped for
+             covid testing in the location that the user selects. If the covid=1, then hospital is
+             equipped to test for covid, 0 otherwise. -->
         <table class="table table-hover">
             <thead>
             <tr class="table-success">
@@ -191,14 +195,11 @@ Covid Test Center page:
             </tr>
             </thead>
             <?php
-            //error here
             if ( mysqli_connect_errno() ) {
                 die(mysqli_connect_error() );
             }
-            // Selects all from the result whose ssn is
-            // specified by drop down menu (user only sees
-            // the name but we track the ssn) and match
-            // on department number to find their department.
+            // Selects the hospital name and covid_test value from HOSPITAL table in HuskyDataInc database in
+            // that are in a particular location selected by the user.
             $sql = " SELECT hospital_name, covid_test 
                      FROM HOSPITAL
                      WHERE county = '{$_GET['county']}'";

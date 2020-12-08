@@ -3,6 +3,20 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+Describe your Symptoms:
+    This webpage allows users upload a symptom into the HuskyDataInc database. The webpage allows the user to
+    choose from a dropdown menu of symptoms that are currently stored in the database. If the user cannot
+    find their symptom then they can have the option to enter a new symptom into the database.
+
+    The user also is allowed to select the severity of their symptom which is then recorded.
+
+    The user can also specify whether or not they have been diagnosed with a particular infection. If they have
+    been diagnosed with an infection then they are prompted to record the infection name. This infection name
+    will be associated with their symptom.
+
+    The webpage also allows the user to specify whether this symptom is for a current patient. If the user
+    is a patient then they are prompted to enter their unique patient ID number.
 -->
 
 <!DOCTYPE html>
@@ -157,7 +171,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <p style="font-size: 50px" class="lead">Describe your Symptoms</p>
     <hr class="my-4">
     <form id="form-one" method="POST" action="new_symptoms.php">
-        <!-- div container for the drop down form select bar -->
+        <!-- Item 1 contains the drop down menu for the symptom name.  -->
         <div class="item-1">
             <div class="form-group">
                 <label style="font-size: 17px" for="symptom_select">Symptom Name:</label>
@@ -169,6 +183,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         die(mysqli_connect_error());
                     }
 
+                    // Query that selects the symptom name (description) and orders them in alphabetical ordering.
                     $sql = "SELECT DISTINCT description 
                             FROM SYMPTOM ORDER BY description ASC";
                     if ($result = mysqli_query($connection, $sql)) {
@@ -184,25 +199,32 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </select>
             </div>
         </div>
-        <!-- TODO this seems like it should go in the database and not tied to the view-->
+
+
+        <!-- Item 2 is check bar container and associated hidden input form. Allows the user to specify a new
+             symptom that is not listed in the drop down menu. -->
         <div class="item-2">
             <div id="new-symptom" class="form-group">
-
+                <!-- Container for the actual checkbox -->
                 <div style="display: inline" id="check-box-container" class="custom-control custom-checkbox">
-
                     <input  type="checkbox" class="custom-control-input" id="new-symptom-checkbox"
                            onchange="addNewSymptom()">
                     <label style="font-size: 17px" id='new-symptom-label' class="custom-control-label"
                            for="new-symptom-checkbox">Do you have a symptom that is not listed?
                     </label>
                 </div>
+                <!-- Input field that is hidden until the checkbox has been checked. -->
                 <input name="new_symptom" style="display: none" type="text" class="form-control" id="symptomInput"
                        aria-describedby="symptom_help" placeholder="Name your symptom">
+                <!-- Hint for the user -->
                 <small style="display: none"  id="symptom_help" class="form-text text-muted">Please use a single
                     word to name your symptom (e.g. fever, headache, chills, etc).
                 </small>
             </div>
         </div>
+
+        <!-- Item 3 contains the drop down selection menu for the severity of the symptom. The value of the severity
+              is recorded so that it can be inserted into the databse. -->
         <div class="item-3">
             <div class="form-group" id="severity_dropdown" >
                 <label style="font-size: 17px" for="severity-select" id="severity_selector_label">How severe is
@@ -223,46 +245,63 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 </select>
             </div>
         </div>
-        <!-- TODO this seems like it should go in the database and not tied to the view-->
+
+
+        <!-- Item 4 contains the yes/no select option for the user diagnosis.  If the user has not been diagnosed
+             then no additional functionality is presented. If the user selects yes and has been diagnosed then a
+             hidden input field will be presented to the user so that the user can enter their current diagnosis.  -->
         <div class="item-4">
             <div id="new-diagnosis" class="form-group">
                 <div class="form-group" >
                     <label style="font-size: 17px" for="diagnosis-select" id="diagnosis_selector_label">Have you been
                         diagnosed
                     </label>
+                    <!-- Yes or No option presented to the user -->
                     <select class="custom-select" id="diagnosis-select" onchange="addNewDiagnosis()">
                         <option selected>Select an option</option>
                         <option value="1">Yes</option>
                         <option value="2">No</option>
                     </select>
                 </div>
+                <!-- Hidden input for user diagnosis -->
                 <input name="new_diagnosis" style="display: none" type="text" class="form-control" id="diagnosisInput"
                        aria-describedby="diagnosis_help" placeholder="Enter your diagnosis">
+                <!-- Hidden hint for the user diagnosis input -->
                 <small style="display: none"  id="diagnosis_help" class="form-text text-muted">Your information
                     is confidential.
                 </small>
             </div>
         </div>
 
+        <!-- Item 5 contains the the patient yes/no selection menu bar. When the user selects an option, a hidden submit
+             button (item - 6) will display to the user. If the user selects no then no additional functionality is
+             presented. If the user selects yes then they are prompted to enter their patient id
+             number. -->
         <div class="item-5">
             <div id="is-patient-container" class="form-group">
                 <div class="form-group" >
                     <label style="font-size: 17px" for="is-patient-select" id="is-patient-select-label">Are you a
                         current patient?</label>
+                    <!-- Yes/no Select menu -->
                     <select class="custom-select" id="is-patient-select" onchange="addPatient(); changeVisibility();">
                         <option selected>Select an option</option>
                         <option value="1">Yes</option>
                         <option value="2">No</option>
                     </select>
                 </div>
+                <!-- Hidden input for the patient id input field -->
                 <input name="is-patient" style="display: none" type="text" class="form-control" id="patientInput"
                        aria-describedby="patient_help" placeholder="Enter you patient ID number">
+                <!-- Hidden hint for the patient id input field. -->
                 <small style="display: none"  id="patient_help" class="form-text text-muted">Your symptom will be recorded in
                     your confidential patient chart associated with your ID.
                 </small>
             </div>
         </div>
 
+        <!--  Item 6 contain a button that submits the form. The submit button is hidden until the user selects
+              yes or no to the final question (Item 5). Once the user submits then the information is either
+              inserted into the HuskyDataInc database or it will be rejected. -->
         <div class="item-6">
             <div class="container">
                 <div class="btn-holder">
@@ -273,6 +312,10 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             </div>
         </div>
 
+
+        <!-- Item 7 contains all the resources that connect the webpage to the database. If the user enters
+             everything correctly and the information is successfully inserted into the Symptom table in the
+             HuskyDataInc database then a special success popup message appears the user. -->
         <div class="item-7">
             <?php
             // HERE IS WHERE WE SEND INFORMATION TO OUR DATABASE
@@ -331,13 +374,16 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     }
                     if (!mysqli_query($connection, $sql)) {
                         ?>
+                            <!-- If there was an error in inserting the data into the database then
+                                 an alert message displays to the user -->
                         <script>
                             alert("Ooops! Something went wrong. Please contact administrator or try again.")
                         </script>
                     <?php
-                    // echo "Error: Could not execute $sql";
                     } else {
                         ?>
+                        <!-- If the users information is successfully uploaded into the database then the following
+                             success alert will pop up to the user notifying them of successful insert. -->
                         <div id='symptom_alert'>
                             <div class="alert alert-dismissible alert-info">
                                 <h4 class="alert-heading">Symptom Recorded</h4>
@@ -359,12 +405,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
 
 <!-- Some javascript to provide some functionality -->
 <script type="text/javascript">
+    // Changes the visibility of the submit button.
     function changeVisibility() {
         document.getElementById('submit_button').style.display = 'inline';
     }
+    // Hides the visibility of the submit button.
     function changeVisibilityHide() {
         document.getElementById('submit_button').style.display = 'none';
     }
+    // Checks whether or not the checkbox has been checked. If it has
+    // then change the visibility of the input field and hint to the user.
+    // Otherwise, hide these compoenents if unchecked.
     function addNewSymptom() {
         if (document.getElementById("new-symptom-checkbox").checked === true) {
             document.getElementById('symptomInput').style.display = 'inline';
@@ -374,9 +425,13 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             document.getElementById('symptom_help').style.display = 'none';
         }
     }
+    // hide the alert message, if the user wants to insert a second symptom without reloading the page.
     function hideAlert() {
         document.getElementById('symptom_alert').style.display = 'none';
     }
+    // Checks whether or not the user has selected yes or no for the diagnosis. If the user has selected yes then
+    // display to the user the input field and the hint message.
+    // Otherwise, hide the input and hint field.
     function addNewDiagnosis() {
         if (document.getElementById("diagnosis-select").value === "1") {
             document.getElementById('diagnosisInput').style.display = 'inline';
@@ -386,6 +441,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             document.getElementById('diagnosis_help').style.display = 'none';
         }
     }
+    // Checks whether or not the user is a patient. If the user has selected yes then display to the user the input
+    // field and the hint message.
+    // Otherwise, hide the input and hint field.
     function addPatient() {
         if (document.getElementById("is-patient-select").value === "1") {
             document.getElementById('patientInput').style.display = 'inline';
@@ -395,9 +453,11 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             document.getElementById('patient_help').style.display = 'none';
         }
     }
+    // Hides the checkbox for when the user clicks the sign-up button.
     function hide_toggle() {
         document.getElementById('check-box-container').style.display = 'none';
     }
+    // Displays the checkbox when the user exits the sign up popup.
     function show_toggle() {
         document.getElementById('check-box-container').style.display = 'inline';
     }

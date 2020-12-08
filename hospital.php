@@ -3,6 +3,15 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+Hospital:
+    Allows the user to find hospitals near them by selected from a set of locations. It also allows the user
+    to view information about the hospitals in a particular location near them. It also adds the functionality of
+    having google maps embedded in the website so the user can easily navigate to the hospitals exact location
+    if needed.
+
+    Note about google maps feature:
+
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -158,8 +167,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             if ( mysqli_connect_errno() ) {
                 die( mysqli_connect_error() );
             }
-            // Query that retrieves the first and last name and SSN from
-            // our EMPLOYEE table in our database.
+            // Query that selects all names of hospitals that are currently stored in the Hospital table of
+            // the HuskyDataInc database.
             $sql = "select hospital_name from HOSPITAL";
             if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
@@ -172,12 +181,14 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             }
             ?>
         </select>
-        <!-- Works up until this point -->
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if (isset($_GET['hospital'])) {
                 ?>
         <p>&nbsp;</p>
+
+        <!-- This table displays the Hospital name, total number of beds in the hospital, the total number
+             of available beds in the hospital and whether or not this hospital is covid test center. -->
         <table class="table table-hover">
             <thead>
             <tr class="table-success">
@@ -188,15 +199,12 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
             </tr>
             </thead>
             <?php
-            //error here
             if ( mysqli_connect_errno() ) {
                 die(mysqli_connect_error() );
             }
-            //error end
-            // Selects all from the result whose ssn is
-            // specified by drop down menu (user only sees
-            // the name but we track the ssn) and match
-            // on department number to find their department.
+
+            // Selects the hospital name, total beds, available beds, covid_test availability from the
+            // Hospital table in the HuskyDataInc database.
             $sql = " SELECT hospital_name, total_bed, availability_bed, covid_test
                      FROM HOSPITAL WHERE hospital_name = '{$_GET['hospital']}'";
 

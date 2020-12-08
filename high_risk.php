@@ -3,6 +3,10 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+High Risk page:
+    Allows the user to identify all the infections and their infection rate, as well as the number of
+    infection in a given county that is selected by the user.
 -->
 
 <!DOCTYPE html>
@@ -165,6 +169,8 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 if (mysqli_connect_errno()) {
                     die( mysqli_connect_error() );
                 }
+                // Since our infection table does not store the location of the infection we have to find the locations
+                // of the infections by determining what hospitals the user is currently at.
                 $sql = "SELECT DISTINCT county
                         FROM HOSPITAL JOIN PATIENT ON HOSPITAL.hospital_name = PATIENT.hosp_name, INFECTION 
                         WHERE PATIENT.sickness_type = INFECTION.infection_name";
@@ -184,6 +190,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if (isset($_GET['infection'])) {
                 ?>
+
+        <!-- The table displays the infection name, infection rate, and number of infections
+             in the location selected by the user -->
         <table class="table table-hover">
             <thead>
             <tr class="table-success">
@@ -197,7 +206,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 die(mysqli_connect_error() );
             }
             // Selects the infection name, infection rate and the number
-            // of infections of that that type in the county specfied in the
+            // of infections of that that type in the county specified in the
             // drop down menu by the user.
             $sql = "SELECT sickness_type, infection_rate, COUNT(sickness_type) as infection_count 
                     FROM (SELECT county, sickness_type, infection_rate

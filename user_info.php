@@ -3,6 +3,11 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+User Information:
+    This webpage allows the the user to look at the profile of another user. The users information
+    is then displayed to the webpage.
+
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -166,6 +171,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                     // Query that retrieves the first and last name and user_id from
                     // our USER_INFO table in our database.
                     $sql = "select first_name, last_name, user_id from USER_INFO ORDER BY last_name ASC";
+                    
                     if ($result = mysqli_query($connection, $sql)) {
                         // loop through the data
                         while($row = mysqli_fetch_assoc($result)) {

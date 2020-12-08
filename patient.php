@@ -3,6 +3,17 @@
 Project Phase III
 Group name: Husky Data Inc.
 Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
+
+
+Patient Dashboard:
+    This webpage allows the user to locate information about a particular patient. This webpage is intended
+    to be used by authorized medical service providers. The user will select a patient id from a drop down menu
+    and then will be able to see relevant information. This includes multiple cards that display the patient
+    diagnosis along with infection rate, type of medication that can be used. It also display additional
+    information about the particular patient such as their hospital, contact info, etc.
+
+    On the right hand side of the webpage, the user will be able to see all the patients in the database
+    with an infection severity that is higher than average. These are the patients with the most urgent infections.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -152,6 +163,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
     <p style="font-size: 50px" class="lead">Patient Dashboard</p>
     <hr class="my-4">
     <form method="GET" action="patient.php">
+
         <div class="grid-container">
             <div class="grid-child1">
                 <!-- div container for the drop down form select bar -->
@@ -166,8 +178,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         if ( mysqli_connect_errno() ) {
                             die( mysqli_connect_error() );
                         }
-                        // Query that retrieves the first and last name and user_id from
-                        // our USER_INFO table in our database.
+                        // Select all the patient id from the patient table and order them in ascending order.
                         $sql = "select patient_id from PATIENT ORDER BY patient_id ASC";
                         if ($result = mysqli_query($connection, $sql)) {
                             // loop through the data
@@ -224,6 +235,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         } // end if ($_SERVER)
                         ?>
                     </div>
+
+                    <!-- Item b contains the diagnosis card. In this card, there is a description of the
+                         the patients diagnosis and the infection rate. -->
                     <div class="item-b">
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -233,6 +247,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 if ( mysqli_connect_errno() ) {
                                     die(mysqli_connect_error() );
                                 }
+
+                                // Select the infection name and infection rate from infection where
+                                // the infection matches the patients infections.
                                 $sql = " select infection_name, infection_rate 
                                         from INFECTION 
                                         where infection_name IN (
@@ -242,6 +259,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 if ($result = mysqli_query($connection, $sql)) {
                                     while($row = mysqli_fetch_assoc($result)) {
                                         ?>
+                                            <!-- The card that displays information to the user. -->
                                         <div class="alert alert-dismissible alert-primary">
                                             <strong>Diagnosis</strong>
                                             <p>This patient has been diagnosed with <em>
@@ -256,6 +274,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             }
                         }?>
                     </div>
+
+                    <!-- Card c contains the medication card that displays information about the medication that
+                         should be used for their infection. -->
                     <div class="item-c">
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -264,15 +285,20 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                 if ( mysqli_connect_errno() ) {
                                             die(mysqli_connect_error() );
                                         }
+
+                                        // This is the same query that was used previously but we are now interested
+                                        // in retrieving the medication.
                                         $sql = " select  infection_name, medication 
                                                 from INFECTION 
                                                 where infection_name IN (
                                                     select sickness_type 
                                                     from PATIENT 
                                                     where patient_id = '{$_GET['patient']}') ";
+
                                         if ($result = mysqli_query($connection, $sql)) {
                                             while($row = mysqli_fetch_assoc($result)) {
                                                 ?>
+                                                    <!-- The card that displays the medication information -->
                                                 <div class="alert alert-dismissible alert-success">
                                                     <strong>Medication</strong><p>This patient has been diagnosed
                                                         with <em><?php echo $row['infection_name']?></em>.
@@ -285,12 +311,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                     }
                                 }?>
                             </div>
+
+                            <!-- Item d contains a table that displays all of the symptoms that this patient
+                                 is exhibiting. -->
                             <div class="item-d">
                                     <?php
                                     if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         if (isset($_GET['patient']) ) {
                                             ?>
                                         <h3>Patients Symptoms</h3>
+
+                                        <!-- Table displays the list of symptoms and their severity for the patient. -->
                                         <table class="table table-hover">
                                             <thead>
                                             <tr class="table-info">
@@ -325,6 +356,9 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             </div>
                         </div>
                     </div>
+
+                    <!-- Contains the table on the right hand side of the website that contains the patients that
+                         exhibit the most severe infections. -->
                     <div class="grid-child2">
                         <h2>Patients with the most severe symptoms</h2>
                         <p>The following patients below exhibit symptom severity that is higher
@@ -349,8 +383,7 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                             if ( mysqli_connect_errno() ) {
                                 die(mysqli_connect_error() );
                             }
-                            // Selects patient information from database using
-                            // their user_id.
+                            // Selects patients who exhibit higher than average severity.
                             $sql = "SELECT *
                                     FROM PATIENT P1
                                     WHERE SEVERITY >(SELECT AVG(SEVERITY)
