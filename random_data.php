@@ -241,9 +241,17 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                 if (mysqli_connect_errno()) {
                     die(mysqli_connect_error());
                 }
+
+                    for ($i = 0;  $i < sizeof($county_data)-1; $i++) {
+                        $rand_pop_var = rand(1000, 100000);
+                        $rand_num_hosp_var = rand(1, 25);
+                        mysqli_query($connection,
+                            "INSERT INTO LOCATION(county, state, population, num_of_hospital)
+                                    VALUES ('$county_data[$i]', 'WA', $rand_pop_var, $rand_num_hosp_var)");
+                    }
+
                 // If predefined symptom and no diagnosis then execute
-                if ($_POST['table'] == 'hospital') {
-                    for ($i = 1;  $i < sizeof($hospital_data); $i++) {
+                    for ($i = 1;  $i < 1000; $i++) {
                         $hosp_var = $hospital_data[array_rand($hospital_data)];
                         $total_bed_var = rand(50, 500);
                         $avail_bed_var = rand(0, 250);
@@ -254,8 +262,13 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                     VALUES ('$hosp_var', $total_bed_var, $avail_bed_var, '$county_var', 
                                                                                                     $covid_test_var)");
                     }
-                } elseif ($_POST['table'] == 'infection') {
-                    for ($i = 0; $i <= sizeof($infection_data); $i++) {
+
+
+
+
+
+
+                    for ($i = 0; $i <= 1000; $i++) {
                         $infection_var = $infection_data[array_rand($infection_data)];
                         $infection_rate_var = rand(1, 1000)/1000;
                         $medicine_data_var = $medicine_data[array_rand($medicine_data)];
@@ -265,19 +278,13 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                     VALUES ('$infection_var', $infection_rate_var, '$medicine_data_var', 
                                             $num_infections_var)");
                     }
-                } elseif ($_POST['table'] == 'location') {
-                    for ($i = 0;  $i < sizeof($county_data)-1; $i++) {
-                        $rand_pop_var = rand(1000, 100000);
-                        $rand_num_hosp_var = rand(1, 25);
-                        mysqli_query($connection,
-                            "INSERT INTO LOCATION(county, state, population, num_of_hospital)
-                                    VALUES ('$county_data[$i]', 'WA', $rand_pop_var, $rand_num_hosp_var)");
-                    }
-                } elseif ($_POST['table'] == 'patient') {
+
+
+
                     // Not a particularly good design choice.
                     // Should update the patient id to auto-increment.
                     $id_counter = 1014;
-                    for ($i = 0; $i < sizeof($patient_email_data); $i++) {
+                    for ($i = 0; $i < 1000; $i++) {
                         $id_counter++;
                         $rand_sickness_type = $infection_data[array_rand($infection_data)];
                         $rand_severity = rand(1, 10);
@@ -292,19 +299,12 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                     VALUES ($id_counter, '$rand_sickness_type', $rand_severity, $rand_duration,
                                             $rand_age_range, '$rand_hosp_name', '$rand_patient_email')");
                     }
-                } elseif ($_POST['table'] == 'symptom') {
-                    // Looks good - might be good to add these particular symptoms to a patient? Otherwise
-                    // a patient will only have a single
-                    for ($i = 0; $i < sizeof($symptom_description_data); $i++) {
-                        $rand_desc = $symptom_description_data[array_rand($symptom_description_data)];
-                        $rand_sym_severity = rand(1, 10);
-                        $rand_infect_name = $infection_data[array_rand($infection_data)];
-                        mysqli_query($connection, "INSERT INTO SYMPTOM(description, severity, infection_name) 
-                        VALUES ('$rand_desc', $rand_sym_severity, '$rand_infect_name')");
-                    }
-                } elseif ($_POST['table'] == 'user_info') {
+
+
+
+
                     $id_counter = 30;
-                    for ($i = 0; $i < sizeof($patient_email_data); $i++) {
+                    for ($i = 0; $i < 1000; $i++) {
                         $id_counter = rand(50, 100000);
                         $id_counter++;
                         $rand_email = $patient_email_data[array_rand($patient_email_data)];
@@ -323,14 +323,24 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                                     VALUES ($id_counter, '$rand_email', '$rand_first_name', '$rand_last_name', 
                                             '$rand_county', '$rand_sex', $rand_age, '$rand_total_year')");
 
-
                     }
 
-                }
+                    // Looks good - might be good to add these particular symptoms to a patient? Otherwise
+                    // a patient will only have a single
+                    for ($i = 0; $i < 3000; $i++) {
+                        $rand_desc = $symptom_description_data[array_rand($symptom_description_data)];
+                        $rand_sym_severity = rand(1, 10);
+                        $rand_patient_id = rand(1000, 2015);
+                        $rand_infect_name = $infection_data[array_rand($infection_data)];
+                        mysqli_query($connection, "INSERT INTO SYMPTOM(description, severity, infection_name,
+                                    patient_id) 
+                        VALUES ('$rand_desc', $rand_sym_severity, '$rand_infect_name', $rand_patient_id)");
+                    }
 
 
 
-                else {
+
+
                     ?>
                     <div id='symptom_alert'>
                         <div class="alert alert-dismissible alert-info">
@@ -343,7 +353,6 @@ Group members: Elijah Freeman, Roy (Dongyeon) Joo, Xiuxiang Wu
                         </div>
                     </div>
                     <?php
-                }
             }// end if (isset)
             } // end if ($_SERVER)
             ?>

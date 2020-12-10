@@ -170,7 +170,8 @@ Covid Test Center page:
             }
             // Query that retrieves a distinct counties from LOCATION table
             // and displays them through a drop down select menu
-            $sql = "select DISTINCT county from LOCATION";
+            $sql = " SELECT DISTINCT county 
+                     FROM HOSPITAL";
             if ($result = mysqli_query($connection, $sql)) {
                 // loop through the data
                 while($row = mysqli_fetch_assoc($result)) {
